@@ -1,0 +1,17 @@
+h1 a, h2 a {
+    color: #476bed;
+    font-family: 'Permanent Marker';
+    padding-left: 15px;
+}
+
+h1 a:hover, h2 a {
+    color: #7a95f5;
+    font-family: 'Permanent Marker';
+    text-decoration: none;
+}
+
+.page-header {
+    background-color: #ddddf0;
+    margin-top: 0;
+    padding: 20px 20px 20px 40px;
+}
