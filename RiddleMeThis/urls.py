@@ -18,5 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(r'', include('app.urls')),
+    path(r'', include('app.urls')), #pattern for empty route, looks in app.urls
+    path(r'^temp_user/$', include('app.urls')),
 ]

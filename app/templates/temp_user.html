@@ -16,16 +16,8 @@
         </div>
 
         <div id = "wrapper">
-
-        <form action="" method="post">
-        	{% csrf_token %}
-    		{{ form }}
-        	<div class = username>
-			    <input id="temp_user" type="text" name="temp_user" value="{{ current_name }}" placeholder = " ☺" required> <br>
-			    <label for="temp_user" class = "small-text" style = "padding-left: 12px"> nickname </label> <br>
-			    <input type="submit" value="Go!">
-    		</div>
-		</form>
+        <h1 id = "smalltext"> Welcome, {{ username }}!</h1>
+        <p> and i oop-</p>
 
 
 		<div>

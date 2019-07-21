@@ -1,17 +1,82 @@
 h1 a, h2 a {
-    color: #476bed;
+    color: #000000;
     font-family: 'Permanent Marker';
     padding-left: 15px;
+    mix-blend-mode: color-burn;
+    opacity: .4;
 }
 
 h1 a:hover, h2 a {
     color: #7a95f5;
     font-family: 'Permanent Marker';
     text-decoration: none;
+    mix-blend-mode: difference;
 }
 
 .page-header {
     background-color: #ddddf0;
     margin-top: 0;
     padding: 20px 20px 20px 40px;
+    opacity: 0.6;
+}
+
+.username
+{
+	padding-left: 15px;
+}
+
+.small-text
+{
+	font-family: 'Roboto', sans-serif;
+	color: rgba(0, 0, 0, 0.5); /* rgba for text opacity, doesnt affect whole block*/
+}
+
+input[type=text]
+{
+	border:none;
+	border-bottom:2px solid white;
+	border-radius:25px;
+	opacity:0.6;
+	padding-left: 12px;
+	height:25px;
+}
+
+input[type=submit]
+{
+	border:none;
+	border-bottom:9px solid white;
+	border-radius:25px;
+	opacity:0.6;
+	height:25px;
+	width:50px;
+}
+
+body {
+  animation: 7000ms ease-in-out infinite color-change;
+}
+
+#wrapper
+{
+	padding-left: 15px;
+}
+
+@keyframes color-change {
+  0% {
+    background-color: #45a3e5;
+  }
+  20% {
+    background-color: #66bf39;
+  }
+  40% {
+    background-color: #eb670f;
+  }
+  60% {
+    background-color: #ff3355;
+  }
+  80% {
+    background-color: #864cbf;
+  }
+  100% {
+    background-color: #45a3e5;
+  }
 }
