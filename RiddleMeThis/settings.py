@@ -26,7 +26,7 @@ SECRET_KEY = '6vi2r%7jono5jfa1#&w39^yd8h^$-5wg@x^2a6r+#u129xdd0w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["http://riddleme-this.herokuapp.com"]
 
 
 # Application definition
@@ -121,9 +121,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (
-    os.path.join(os.path.dirname(__file__), 'static').replace('\\','/'),
-)
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
