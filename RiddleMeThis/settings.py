@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-### BOGA LOL
+
 import os
 import django_heroku
 
@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ["http://riddleme-this.herokuapp.com"]
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
+    'chat',
+    
+    
 ]
 
 MIDDLEWARE = [
@@ -70,7 +74,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'RiddleMeThis.wsgi.application'
-
+#ASGI_APPLICATION = 'RiddleMeThis.routing.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -124,3 +128,19 @@ STATIC_URL = '/static/'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+redis_host = os.environ.get('REDIS_HOST', 'localhost')
+
+# Channel layer definitions
+# http://channels.readthedocs.org/en/latest/deploying.html#setting-up-a-channel-backend
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
+#delete routing
+ASGI_APPLICATION = 'RiddleMeThis.routing.application'
