@@ -1,3 +1,36 @@
+/* <Control> + <F5> for hard refresh*/
+#avatar_select
+{
+  position: absolute;
+  background-color: white;
+  opacity:0.6;
+  width:400px;
+  height: 200px;
+  border-radius: 25px;
+  top:20px;
+  
+}
+#footer {
+   position:fixed;
+   bottom:0px;
+   left:0px;
+   width:100%;
+   opacity:.3;
+   text-align: center;
+   height:20px;
+}
+
+#footer p a
+{
+  color:black;
+}
+
+#footer p a:hover
+{
+  color:white;
+  text-decoration: none;
+}
+
 h1 a, h2 a {
     color: #000000;
     font-family: 'Permanent Marker';
@@ -13,7 +46,7 @@ h1 a:hover, h2 a {
     mix-blend-mode: difference;
 }
 
-.page-header {
+.stripe {
     background-color: #ddddf0;
     margin-top: 0;
     padding: 20px 20px 20px 40px;
@@ -22,13 +55,16 @@ h1 a:hover, h2 a {
 
 .username
 {
-	padding-left: 15px;
+  position:absolute;
+  top:260px;
 }
 
 .small-text
 {
 	font-family: 'Roboto', sans-serif;
 	color: rgba(0, 0, 0, 0.5); /* rgba for text opacity, doesnt affect whole block*/
+  position:absolute;
+  left:12px;
 }
 
 input[type=text]
@@ -45,19 +81,31 @@ input[type=submit]
 {
 	border:none;
 	border-bottom:9px solid white;
-	border-radius:25px;
+	border-radius:30px;
 	opacity:0.6;
 	height:25px;
 	width:50px;
+  font-family: 'Roboto';
+  font-weight:500;
+
+}
+
+input[type=submit]:hover
+{
+  background-color:grey;
+  border-bottom:9px solid grey;
+  color:white;
+
 }
 
 body {
   animation: 7000ms ease-in-out infinite color-change;
 }
 
-#wrapper
+.wrapper
 {
-	padding-left: 15px;
+  position:absolute;
+  left: 250px;
 }
 
 @keyframes color-change {
