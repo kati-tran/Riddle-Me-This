@@ -11,6 +11,5 @@ websocket-client==0.56.0
 websocket==0.2.1
 Twisted==19.2.1
 routing==0.2.0
-pypiwin32==224
 channels==2.2.0
 channels-redis==2.4.0
