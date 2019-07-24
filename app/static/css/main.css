@@ -1,5 +1,15 @@
 /* <Control> + <F5> for hard refresh*/
-
+#avatar_select
+{
+  position: absolute;
+  background-color: white;
+  opacity:0.6;
+  width:400px;
+  height: 200px;
+  border-radius: 25px;
+  top:20px;
+  
+}
 #footer {
    position:fixed;
    bottom:0px;
@@ -41,6 +51,12 @@ h1 a:hover, h2 a {
     margin-top: 0;
     padding: 20px 20px 20px 40px;
     opacity: 0.6;
+}
+
+.username
+{
+  position:absolute;
+  top:260px;
 }
 
 .small-text
@@ -89,7 +105,7 @@ body {
 .wrapper
 {
   position:absolute;
-  left: 15vw;
+  left: 250px;
 }
 
 @keyframes color-change {
