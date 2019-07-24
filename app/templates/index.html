@@ -1,9 +1,14 @@
 {% extends 'master.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
 {% block content %}
-        <div id = "avatar_select">
-        </div>
-        <div style = "position:absolute; top:225px; white-space: nowrap;"> 
-                <label class = "small-text"> choose your fighter</label>
+        <div id = avatar_block>
+            <div id = "avatar_select"></div>
+            <div style = "white-space: nowrap;">
+                    <label class = "small-text" style="position:absolute;top:26vh"> choose your fighter</label>
+            </div>
         </div>
         <br>
          <form action="" method="post">

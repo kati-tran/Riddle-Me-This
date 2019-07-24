@@ -1,0 +1,22 @@
+#avatar_block
+{
+  position:absolute;
+  top:5vh;
+}
+
+#avatar_select
+{
+  position: absolute;
+  background-color: white;
+  opacity:0.6;
+  width:30vw;
+  height: 26vh;
+  border-radius: 25px;
+  
+}
+
+.username
+{
+  position:absolute;
+  top:36vh;
+}
