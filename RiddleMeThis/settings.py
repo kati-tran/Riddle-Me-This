@@ -32,7 +32,6 @@ ALLOWED_HOSTS = ["http://riddleme-this.herokuapp.com"]
 # Application definition
 
 INSTALLED_APPS = [
-    'chat',
     'channels',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
-    
+    'chat',
     
     
 ]
@@ -133,13 +132,10 @@ STATICFILES_DIRS = [
 # Activate Django-Heroku.
 django_heroku.settings(locals())
 
-redis_host = os.environ.get('REDIS_HOST', '127.0.0.1')
+redis_host = os.environ.get('REDIS_HOST', 'localhost')
 
 # Channel layer definitions
 # http://channels.readthedocs.org/en/latest/deploying.html#setting-up-a-channel-backend
-# mysite/settings.py
-# Channels
-ASGI_APPLICATION = 'RiddleMeThis.routing.application'
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -148,5 +144,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
 #delete routing
-#ASGI_APPLICATION = 'RiddleMeThis.routing.application'
+ASGI_APPLICATION = 'RiddleMeThis.routing.application'
