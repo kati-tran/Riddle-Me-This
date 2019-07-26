@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+import difflib
 
 
 def getRiddle() -> dict:
@@ -46,3 +47,19 @@ def allRiddles(ridict: dict, rounds: int) -> dict:
 #    x = allRiddles(dict(),100)
 #    for i in x.values():
 #        print(i)
+
+def correctAnswer(correct_input: str, user_input: str):
+    '''Returns true if a user's input is correct'''
+    
+    user_list = [user_input]
+    correct_input = correct_input.lower()
+    correct = difflib.get_close_matches(correct_input, user_list,1,0.8)
+    if len(correct) > 0:
+        #print("True")
+        return True
+    else:
+        #print("False")
+        return False
+
+#correctAnswer("TO GET to the OTHER side", "togettotheotherside")
+
