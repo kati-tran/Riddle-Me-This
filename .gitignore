@@ -1,2 +1,6 @@
-
-*.pyc
+.cache/
+.coverage
+.tox/
+htmlcov/
+staticfiles/
+venv/
