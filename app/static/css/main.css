@@ -1,0 +1,130 @@
+/* <Control> + <F5> for hard refresh*/
+#avatar_select
+{
+  position: absolute;
+  background-color: white;
+  opacity:0.6;
+  width:400px;
+  height: 200px;
+  border-radius: 25px;
+  top:20px;
+  
+}
+#footer {
+   position:fixed;
+   bottom:0px;
+   left:0px;
+   width:100%;
+   opacity:.3;
+   text-align: center;
+   height:20px;
+}
+
+#footer p a
+{
+  color:black;
+}
+
+#footer p a:hover
+{
+  color:white;
+  text-decoration: none;
+}
+
+h1 a, h2 a {
+    color: #000000;
+    font-family: 'Permanent Marker';
+    padding-left: 15px;
+    mix-blend-mode: color-burn;
+    opacity: .4;
+}
+
+h1 a:hover, h2 a {
+    color: #7a95f5;
+    font-family: 'Permanent Marker';
+    text-decoration: none;
+    mix-blend-mode: difference;
+}
+
+.stripe {
+    background-color: #ddddf0;
+    margin-top: 0;
+    padding: 20px 20px 20px 40px;
+    opacity: 0.6;
+}
+
+.username
+{
+  position:absolute;
+  top:260px;
+}
+
+.small-text
+{
+	font-family: 'Roboto', sans-serif;
+	color: rgba(0, 0, 0, 0.5); /* rgba for text opacity, doesnt affect whole block*/
+  position:absolute;
+  left:12px;
+}
+
+input[type=text]
+{
+	border:none;
+	border-bottom:2px solid white;
+	border-radius:25px;
+	opacity:0.6;
+	padding-left: 12px;
+	height:25px;
+}
+
+input[type=submit]
+{
+	border:none;
+	border-bottom:9px solid white;
+	border-radius:30px;
+	opacity:0.6;
+	height:25px;
+	width:50px;
+  font-family: 'Roboto';
+  font-weight:500;
+
+}
+
+input[type=submit]:hover
+{
+  background-color:grey;
+  border-bottom:9px solid grey;
+  color:white;
+
+}
+
+body {
+  animation: 7000ms ease-in-out infinite color-change;
+}
+
+.wrapper
+{
+  position:absolute;
+  left: 250px;
+}
+
+@keyframes color-change {
+  0% {
+    background-color: #45a3e5;
+  }
+  20% {
+    background-color: #66bf39;
+  }
+  40% {
+    background-color: #eb670f;
+  }
+  60% {
+    background-color: #ff3355;
+  }
+  80% {
+    background-color: #864cbf;
+  }
+  100% {
+    background-color: #45a3e5;
+  }
+}
