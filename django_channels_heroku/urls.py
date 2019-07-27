@@ -21,5 +21,6 @@ from chat import views as chat_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^chat/', include('chat.urls')),
-    url(r'^$', chat_views.index),
+    path(r'', include('app.urls')), #pattern for empty route, looks in app.urls
+    path(r'^temp_user/', include('app.urls')),
 ]

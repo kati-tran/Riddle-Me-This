@@ -1,0 +1,18 @@
+{% extends 'master.html' %}
+{% block content %}
+        <div id = "avatar_select">
+        </div>
+        <div style = "position:absolute; top:225px; white-space: nowrap;"> 
+                <label class = "small-text"> choose your fighter</label>
+        </div>
+        <br>
+         <form action="" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <div class = username>
+                <input type="submit" value="Go!" style ="position:absolute; left:200px">
+                <input id="temp_user" type="text" name="temp_user" value="{{ current_name }}" placeholder = " ☺" required> 
+                <label for="temp_user" class = "small-text"> nickname </label>
+            </div>
+        </form>
+{% endblock %}

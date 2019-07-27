@@ -27,7 +27,7 @@ SECRET_KEY = '4dj_i%)p4)e#&b5&pdxama$vt#u@!4y#($sb6k9roz#fxm*&4t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', True)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['riddleme-this.herokuapp.com']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'chat',
     'channels',
+    'app',
 ]
 
 MIDDLEWARE = [
