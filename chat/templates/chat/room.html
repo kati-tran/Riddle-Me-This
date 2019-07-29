@@ -15,7 +15,8 @@
     var pathArray = window.location.pathname.split('/');
     var name = pathArray[3];
     var test = name.toString();
-    var pos = "testing";
+    var pos = test.slice(10);
+    console.log(pos);
 
     var protocol = '';
     if (window.location.protocol === 'https:') {
