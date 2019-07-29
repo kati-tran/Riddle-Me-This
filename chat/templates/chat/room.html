@@ -33,7 +33,7 @@
     chatSocket.onmessage = function(e) {
         var data = JSON.parse(e.data);
         var message = data['message'];
-        document.querySelector('#chat-log').value += (userName + ': ' + message + '\n');
+        document.querySelector('#chat-log').value += (username + ': ' + message + '\n');
     };
 
     chatSocket.onclose = function(e) {
