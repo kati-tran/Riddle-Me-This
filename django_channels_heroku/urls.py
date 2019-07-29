@@ -22,6 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^chat/', include('chat.urls')),
     path(r'', include('app.urls')), #pattern for empty route, looks in app.urls
-    path(r'^temp_user/', include('app.urls')),
-    path(r'^terms_conditions/$', include('app.urls'))
+    url(r'temp_user/', include('app.urls')),
+    url(r'terms_conditions/', include('app.urls'))
 ]
