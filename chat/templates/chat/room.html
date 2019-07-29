@@ -12,11 +12,10 @@
 </body>
 <script>
     var roomName = {{ room_name_json }};
-    var userName = {{ username }};
     var pathArray = window.location.pathname.split('/');
     var name = pathArray[3];
     var test = name.toString();
-    
+    var pos = "testing";
 
     var protocol = '';
     if (window.location.protocol === 'https:') {
@@ -32,7 +31,7 @@
     chatSocket.onmessage = function(e) {
         var data = JSON.parse(e.data);
         var message = data['message'];
-        document.querySelector('#chat-log').value += (username + ': ' + message + '\n');
+        document.querySelector('#chat-log').value += (pos + ' ' + message + '\n');
     };
 
     chatSocket.onclose = function(e) {
