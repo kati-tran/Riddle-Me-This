@@ -12,6 +12,9 @@
 </body>
 <script>
     var roomName = {{ room_name_json }};
+    var pathArray = window.location.pathname.split('/');
+    var name = pathArray[3];
+    console.log(name);
 
     var protocol = '';
     if (window.location.protocol === 'https:') {
