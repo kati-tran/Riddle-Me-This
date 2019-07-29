@@ -7,8 +7,6 @@ def index(request):
     return render(request, 'chat/enter_chat.html', {})
 
 def room(request, room_name):
-	username = request.GET["username"]
-	final = str(username)
     return render(request, 'chat/room.html', {
-        'room_name_json': mark_safe(json.dumps(room_name)), 'username': final
+        'room_name_json': mark_safe(json.dumps(room_name)), 'username': str(request.GET["username"])
     })
