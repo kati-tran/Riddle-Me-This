@@ -1,18 +1,61 @@
 {% extends 'master.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+
 {% block content %}
-        <div id = "avatar_select">
+        <div id="avatar_container">
+                <div id = "avatar_select">
+                </div>
+
+                <label class = "small-text" style = "white-space: nowrap; top:90%"> choose your fighter</label>
         </div>
-        <div style = "position:absolute; top:225px; white-space: nowrap;"> 
-                <label class = "small-text"> choose your fighter</label>
-        </div>
+
         <br>
-         <form action="" method="post">
-            {% csrf_token %}
-            {{ form }}
-            <div class = username>
-                <input type="submit" value="Go!" style ="position:absolute; left:200px">
-                <input id="temp_user" type="text" name="temp_user" value="{{ current_name }}" placeholder = " ☺" required> 
-                <label for="temp_user" class = "small-text"> nickname </label>
+        <div class = "username">
+             <form action="" method="post">
+                {% csrf_token %}
+                {{ form }}
+                    <input class="button1" id="go" type="submit" value="Go!">
+                    <input type="text" name="temp_user" value="{{ current_name }}" placeholder = " ☺" required> 
+                    <label for="temp_user" class = "small-text" style="top:50%"> nickname </label>
+            </form>
+        </div>
+
+        <div id="info_container">
+            <button class="accordion" id="collapse in" data-parent="#accordion">Updates</button>
+            <div class="panel">
+              <p>And I oop-</p>
             </div>
-        </form>
+
+            <button class="accordion" data-parent="#accordion">How to Play</button>
+            <div class="panel">
+              <p>????????????/</p>
+            </div>
+
+            <button class="accordion" data-parent="#accordion">About</button>
+            <div class="panel">
+              <p>Riddle Me This! is a sdjfsdf</p>
+            </div>
+        </div>
+
+
+<script type="text/javascript">
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight){
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  });
+}
+</script>
 {% endblock %}

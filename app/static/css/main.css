@@ -1,15 +1,4 @@
 /* <Control> + <F5> for hard refresh*/
-#avatar_select
-{
-  position: absolute;
-  background-color: white;
-  opacity:0.6;
-  width:400px;
-  height: 200px;
-  border-radius: 25px;
-  top:20px;
-  
-}
 #footer {
    position:fixed;
    bottom:0px;
@@ -53,12 +42,6 @@ h1 a:hover, h2 a {
     opacity: 0.6;
 }
 
-.username
-{
-  position:absolute;
-  top:260px;
-}
-
 .small-text
 {
 	font-family: 'Roboto', sans-serif;
@@ -67,35 +50,39 @@ h1 a:hover, h2 a {
   left:12px;
 }
 
-input[type=text]
-{
-	border:none;
-	border-bottom:2px solid white;
-	border-radius:25px;
-	opacity:0.6;
-	padding-left: 12px;
-	height:25px;
-}
 
-input[type=submit]
+.button1
 {
-	border:none;
-	border-bottom:9px solid white;
-	border-radius:30px;
-	opacity:0.6;
-	height:25px;
-	width:50px;
+  border:none;
+  border-bottom:7px solid white;
+  border-radius:30px;
+  opacity:0.6;
+  height:25px;
+  width:50px;
   font-family: 'Roboto';
   font-weight:500;
 
 }
 
-input[type=submit]:hover
+.button1:hover
 {
   background-color:grey;
-  border-bottom:9px solid grey;
+  border-bottom:7px solid grey;
   color:white;
 
+}
+
+input {
+ outline:none;
+}
+
+input[type=text]
+{
+  border:none;
+  border-radius:25px;
+  opacity:0.6;
+  padding-left: 12px;
+  height:25px;
 }
 
 body {
@@ -105,7 +92,7 @@ body {
 .wrapper
 {
   position:absolute;
-  left: 250px;
+  left: 20%;
 }
 
 @keyframes color-change {

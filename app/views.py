@@ -12,16 +12,18 @@ class HomePageView(TemplateView):
         return render(request, 'index.html', context=None)
     def post(self,request, **kwargs):
         form = temp_userForm(request.POST)
-        username = form['temp_user'].value()
+        request.session['username'] = form['temp_user'].value()
         
         if form.is_valid():
-            #return HttpResponseRedirect('temp_user')
-            return redirect(reverse('temp_user')+f'?username={username}')
+            return HttpResponseRedirect('temp_user')
     
 class temp_userView(TemplateView):
     def get(self, request, **kwargs):
-        username = request.GET["username"]
-        context = {'username': username}
+        context = {'username': request.session['username']}
         return render(request, 'temp_user.html', context)
+
+class tosView(TemplateView):
+    def get(self, request, **kwargs):
+        return render(request, 'tos.html')
 
 

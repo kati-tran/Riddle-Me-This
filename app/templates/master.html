@@ -9,6 +9,8 @@
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{% static 'css/main.css' %}">
+        {% block head %}
+        {% endblock %}
     </head>
     <body>
         <div class = "stripe">
@@ -22,9 +24,8 @@
 
         <div id = "footer">
             <p> 
-                <a href="/">About</a>   |
                 <a href="/">Contact Us</a>   |
-                <a href="/">Terms and Services</a>     |
+                <a href="/terms_conditions">Terms and Conditions</a>     |
                 <a href="/">Source Code</a> 
             </p>
 
