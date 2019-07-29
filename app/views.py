@@ -16,7 +16,8 @@ class HomePageView(TemplateView):
         
         if form.is_valid():
             #return HttpResponseRedirect('temp_user')
-            return redirect(reverse('temp_user')+f'?username={username}')
+            #return redirect(reverse('temp_user')+f'?username={username}')
+            return redirect(reverse('enter_chat')+f'?username={username}')
     
 class temp_userView(TemplateView):
     def get(self, request, **kwargs):
