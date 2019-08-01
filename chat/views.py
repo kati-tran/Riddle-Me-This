@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.utils.safestring import mark_safe
 from django.http import HttpResponse
 import json
-from chat.generateRiddles import *
+#from chat.generateRiddles import *
 
 def index(request):
     return render(request, 'chat/index.html', {})
