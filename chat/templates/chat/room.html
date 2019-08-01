@@ -70,14 +70,14 @@
       }
 </style>
 
+<script>
+    function(riddles){
+        riddles = JSON.parse(riddles);
+        document.getElementById("demo").innerHTML = riddles["Riddle"];
+    }
+</script>
+<p id="demo"></p>
 <div class="gameContainer">
-    <script>
-        function(riddles){
-            riddles = JSON.parse(riddles);
-            document.getElementById("demo").innerHTML = riddles["Riddle"];
-        }
-    </script>
-    <p id="demo"></p>
 </div>
 <div class="chatContainer">
     <textarea id="chat-log" cols="42" rows="37"></textarea>
