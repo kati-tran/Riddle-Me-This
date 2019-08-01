@@ -71,6 +71,7 @@
 </style>
 
 <script>
+	var riddles = {{riddles}};
     function(riddles){
         riddles = JSON.parse(riddles);
         document.getElementById("demo").innerHTML = riddles["Riddle"];
