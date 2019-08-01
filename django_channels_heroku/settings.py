@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'chat',
     'channels',
     'app',
-    'generateRiddles',
 ]
 
 MIDDLEWARE = [
