@@ -70,7 +70,15 @@
       }
 </style>
 
-<div class="gameContainer"></div>
+<div class="gameContainer">
+    <script>
+        function(riddles){
+            riddles = JSON.parse(riddles);
+            document.getElementById("demo").innerHTML = riddles["Riddle"];
+        }
+    </script>
+    <p id="demo"></p>
+</div>
 <div class="chatContainer">
     <textarea id="chat-log" cols="42" rows="37"></textarea>
     <form id ="chat-form" onkeypress="return event.keyCode != 13"><br/>
@@ -78,6 +86,7 @@
         <input id="chat-message-submit" class="button1" type="button" value="Send"/>
     </form>
 </div>
+
 <script>
     var roomName = {{ room_name_json }};
     var username = "{{username}}: ";
