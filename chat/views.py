@@ -11,7 +11,7 @@ def index(request):
 def room(request, room_name):
     return render(request, 'chat/room.html', {
         'room_name_json': mark_safe(json.dumps(room_name)), 'username': request.session['username'],
-        'riddles': json.dumps(gr.getRiddle()),
+        'riddles': json.dumps(list((gr.allRiddles(dict(),3)).items())),
     })
 
 #'riddles': HttpResponse( json.dumps(getRiddle())

@@ -1,3 +1,5 @@
+
+<!-- CSS CODE FOR GAME ROOM -->
 <style> 
     body {
         animation: 7000ms ease-in-out infinite color-change;
@@ -70,6 +72,8 @@
       }
 </style>
 
+<!-- MAINLY HTML CODE FOR GAME ROOM -->
+<script src="/socket.io/socket.io.js"></script>
 <div class="gameContainer">
     <p id="demo"></p>
     <p id="answer" style="color:red"></p>
@@ -82,13 +86,44 @@
     </form>
 </div>
 
+<!--JAVASCRIPT FOR MAIN ROOM-->
 <script>
+    var ridList = {{riddles|safe}}; 
+    var placement = 0;
+    var rounds = 3;
+    //var rou = 1;
+
+    //function round(){
+    //    if (rounds!=0)
+    //    {
+    //        document.getElementById("demo").innerHTML = "Round " + rou;
+    //        rou += 1;
+    //    }
+    //    
+    //}
+    function getRiddles() {   
+        if(rounds != 0)
+        {
+            document.getElementById("demo").innerHTML = ridList[placement][0];
+            document.getElementById("answer").innerHTML = ridList[placement][1];
+            placement += 1;
+            rounds -= 1;
+        }
+    }
+
+    getRiddles();
+    setInterval(function(){
+        getRiddles();
+    }, 3000);
+
+
     var roomName = {{ room_name_json }};
     var username = "{{username}}: ";
 
-    var ridDict = {{riddles|safe}};
-    document.getElementById("demo").innerHTML = ridDict["Riddle"];
-    document.getElementById("answer").innerHTML = ridDict["Answer"];
+    var players = {};
+    SOCKET_LIST[username] = socket;
+    players[username] = {id:username,score:0}
+    socket.emit('setPlayerId',username);
 
     var protocol = '';
     if (window.location.protocol === 'https:') {
