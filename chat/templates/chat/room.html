@@ -120,11 +120,6 @@
     var roomName = {{ room_name_json }};
     var username = "{{username}}: ";
 
-    var players = {};
-    SOCKET_LIST[username] = socket;
-    players[username] = {id:username,score:0}
-    socket.emit('setPlayerId',username);
-
     var protocol = '';
     if (window.location.protocol === 'https:') {
         protocol = 'wss:';
