@@ -2,7 +2,6 @@
     body {
         animation: 7000ms ease-in-out infinite color-change;
     }
-
     .gameContainer {
         background: white;
         width: 64%;
@@ -14,6 +13,7 @@
         text-align: center;
         box-shadow: 5px 5px 10px #888888;
         position: relative;
+        font-size: 50px;
     }
 
     .chatContainer {
@@ -70,15 +70,10 @@
       }
 </style>
 
-<script>
-	var riddles = {{riddles}};
-    function(riddles){
-        riddles = JSON.parse(riddles);
-        document.getElementById("demo").innerHTML = riddles["Riddle"];
-    }
-</script>
-<p id="demo"></p>
-<div class="gameContainer"></div>
+<div class="gameContainer">
+    <p id="demo"></p>
+    <p id="answer" style="color:red"></p>
+</div>
 <div class="chatContainer">
     <textarea id="chat-log" cols="42" rows="37"></textarea>
     <form id ="chat-form" onkeypress="return event.keyCode != 13"><br/>
@@ -90,6 +85,10 @@
 <script>
     var roomName = {{ room_name_json }};
     var username = "{{username}}: ";
+
+    var ridDict = {{riddles|safe}};
+    document.getElementById("demo").innerHTML = ridDict["Riddle"];
+    document.getElementById("answer").innerHTML = ridDict["Answer"];
 
     var protocol = '';
     if (window.location.protocol === 'https:') {
