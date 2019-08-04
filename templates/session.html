@@ -18,7 +18,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
     <script type="text/javascript">
-      var socket = io.connect('http://' + document.domain + ':' + location.port);
+      var socket = io.connect('https://' + document.domain + ':' + location.port);
 
       socket.on( 'connect', function() {
         socket.emit( 'my event', {
