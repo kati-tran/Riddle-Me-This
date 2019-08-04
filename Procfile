@@ -1,1 +1,2 @@
-web: daphne django_channels_heroku.asgi:application --port $PORT --bind 0.0.0.0
+web: gunicorn app:app
+release: python manage.py db upgrade
