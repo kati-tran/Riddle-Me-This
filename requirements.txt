@@ -23,6 +23,7 @@ Django==2.2.3
 django-heroku==0.3.1
 docker==4.0.2
 EbookLib==0.17.1
+eventlet==0.25.0
 fanfiction==0.1.1
 fanfiction-api==1.0
 Flask==1.0.3
