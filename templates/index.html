@@ -5,26 +5,21 @@
 {% endblock %}
 
 {% block content %}
-        <div style = "display: inline-block; float:left;">
-          <div id="avatar_container">
-                  <div id = "avatar_select">
-                  </div>
+        <div id="avatar_container">
+                <div id = "avatar_select">
+                </div>
 
-                  <label class = "small-text"> choose your fighter</label>
-          </div>
-
-          <br>
-
-          <div class = "username">
-               <form action="" method="post">
-                      <input class="button1" id="go" type="submit" value="Go!">
-                      <input type="text" name="username" value="{{ current_name }}" placeholder = " ☺" required> 
-                      <label for="username" class = "small-text"> nickname </label>
-              </form>
-          </div>
-
+                <label class = "small-text" style = "white-space: nowrap; top:90%"> choose your fighter</label>
         </div>
 
+        <br>
+        <div class = "username">
+             <form action="" method="post">
+                    <input class="button1" id="go" type="submit" value="Go!">
+                    <input type="text" name="username" value="{{ current_name }}" placeholder = " ☺" required> 
+                    <label for="username" class = "small-text" style="top:50%"> nickname </label>
+            </form>
+        </div>
 
         <div id="info_container">
             <button class="accordion" id="collapse in" data-parent="#accordion">Updates</button>

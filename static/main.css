@@ -35,16 +35,6 @@ h1 a:hover, h2 a {
     mix-blend-mode: difference;
 }
 
-label
-{
-    display: block;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    width: 100%;
-    margin-top: 4px;
-}
-
 .stripe {
     background-color: #ddddf0;
     margin-top: 0;
@@ -57,7 +47,7 @@ label
 {
 	font-family: 'Roboto', sans-serif;
 	color: rgba(0, 0, 0, 0.5); /* rgba for text opacity, doesnt affect whole block*/
-  position:relative;
+  position:absolute;
   left:12px;
 }
 
@@ -98,19 +88,15 @@ input[type=text]
 
 body {
   animation: 7000ms ease-in-out infinite color-change;
+  margin:0;
 }
 
 .wrapper
 {
-  height:100%;
-  width:100%;
-  padding-top: 25px;
-  padding-left: 22.5%;
-  padding-right: 22.5%;
-  display: inline-block;
+  position:absolute;
+  left:350px;
 
 }
-
 
 @keyframes color-change {
   0% {
