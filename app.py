@@ -28,7 +28,7 @@ def contact():
 def tos():
     return render_template('tos.html')
 
-@app.route('/game')
+@app.route('/game', methods=['GET', 'POST'])
 def sessions():
     return render_template('session.html')
 
