@@ -1,160 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Python Websockets Chat Demo</title>
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="static/css/application.css" rel="stylesheet" media="screen">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div class="container">
+      <div class="jumbotron">
+        <h1>Python Websockets Chat Demo</h1>
+        <hr />
+        <p>This is a Python WebSockets Chat Demo. The code lives <a href="https://github.com/heroku-examples/python-websockets-chat">on GitHub</a>. </p>
+        <p>You can find the full guide in <a href="https://devcenter.heroku.com/articles/python-websockets">Heroku DevCenter</a>.</p>
+      </div>
+      <form id="input-form" class="form-inline">
+        <div class="form-group">
+          <input id="input-handle" type="text" class="form-control" placeholder="Enter handle" autofocus />
+        </div>
+        <div class="form-group">
+          <input id="input-text" type="text" class="form-control" placeholder="Enter chat text here!" autofocus />
+        </div>
+        <button class="btn btn-primary" type="submit">Send</button>
+      </form>
+      <div class="page-header">
+        <h1>Chat Log</h1>
+      </div>
+      <div id="chat-text">
+      </div>
+    </div>
 
-<!-- CSS CODE FOR GAME ROOM -->
-<style> 
-    body {
-        animation: 7000ms ease-in-out infinite color-change;
-    }
-    .gameContainer {
-        background: white;
-        width: 64%;
-        height: 81%;
-        border-radius: 6px;
-        float: left;
-        margin: 5% 1% 1% 3%;
-        padding: 10px;
-        text-align: center;
-        box-shadow: 5px 5px 10px #888888;
-        position: relative;
-        font-size: 50px;
-    }
+    <a href="https://github.com/heroku-examples/python-websockets-chat"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
-    .chatContainer {
-        background: white;
-        width: 25%;
-        height: 81%;
-        border-radius: 6px;
-        float: right;
-        margin: 5% 3% 1% 1%;
-        padding: 10px;
-        text-align: center;
-        box-shadow: 5px 5px 10px #888888;
-    }
-
-    .button1
-    {
-      border:none;
-      border-radius:30px;
-      opacity:0.6;
-      height:25px;
-      width:50px;
-      font-family: 'Roboto';
-      font-weight:500;
-      font-size: 17px;
-      background-color:#d3d3d3;
-
-    }
-
-    .button1:hover
-    {
-      background-color:grey;
-      border-bottom:7px solid grey;
-      color:white;
-
-    }
-    @keyframes color-change {
-      0% {
-        background-color: #45a3e5;
-      }
-      20% {
-        background-color: #66bf39;
-      }
-      40% {
-        background-color: #eb670f;
-      }
-      60% {
-        background-color: #ff3355;
-      }
-      80% {
-        background-color: #864cbf;
-      }
-      100% {
-        background-color: #45a3e5;
-      }
-</style>
-
-<!-- MAINLY HTML CODE FOR GAME ROOM -->
-<script src="/socket.io/socket.io.js"></script>
-<div class="gameContainer">
-    <p id="demo"></p>
-    <p id="answer" style="color:red"></p>
-</div>
-<div class="chatContainer">
-    <textarea id="chat-log" cols="42" rows="37"></textarea>
-    <form id ="chat-form" onkeypress="return event.keyCode != 13"><br/>
-        <input id="chat-message-input" style="width: 80%; height: 30px;" autocomplete="off" type="text"/>
-        <input id="chat-message-submit" class="button1" type="button" value="Send"/>
-    </form>
-</div>
-
-<!--JAVASCRIPT FOR MAIN ROOM-->
-<script>
-    var ridList = {{riddles|safe}}; 
-    var placement = 0;
-    var rounds = 3;
-    //var rou = 1;
-
-    //function round(){
-    //    if (rounds!=0)
-    //    {
-    //        document.getElementById("demo").innerHTML = "Round " + rou;
-    //        rou += 1;
-    //    }
-    //    
-    //}
-    function getRiddles() {   
-        if(rounds != 0)
-        {
-            document.getElementById("demo").innerHTML = ridList[placement][0];
-            document.getElementById("answer").innerHTML = ridList[placement][1];
-            placement += 1;
-            rounds -= 1;
-        }
-    }
-
-    getRiddles();
-    setInterval(function(){
-        getRiddles();
-    }, 3000);
-
-
-    var roomName = {{ room_name_json }};
-    var username = "{{username}}: ";
-
-    var protocol = '';
-    if (window.location.protocol === 'https:') {
-        protocol = 'wss:';
-    } else {
-        protocol = 'ws:';
-    }
-
-    var chatSocket = new WebSocket(
-        protocol + '//' + window.location.host +
-        '/ws/chat/' + roomName + '/');
-
-    chatSocket.onmessage = function(e) {
-        var data = JSON.parse(e.data);
-        var message = data['message'];
-        document.querySelector('#chat-log').value += (message + '\n');
-    };
-
-    chatSocket.onclose = function(e) {
-        console.error('Chat socket closed unexpectedly');
-    };
-
-    document.querySelector('#chat-message-input').focus();
-    document.querySelector('#chat-message-input').onkeyup = function(e) {
-        if (e.keyCode === 13) {  // enter, return
-            document.querySelector('#chat-message-submit').click();
-        }
-    };
-
-    document.querySelector('#chat-message-submit').onclick = function(e) {
-        var messageInputDom = document.querySelector('#chat-message-input');
-        var message = messageInputDom.value;
-        chatSocket.send(JSON.stringify({
-            'message': username.concat(message)
-        }));
-
-        messageInputDom.value = '';
-    };
-</script>
+    <script type="text/javascript" src="static/js/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="static/js/reconnecting-websocket.min.js"></script>
+    <script type="text/javascript" src="static/js/application.js"></script>
+  </body>
+</html>
