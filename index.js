@@ -9,7 +9,7 @@ var loopLimit = 0;
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
-  fs.writeFile(__dirname + '/start.log', 'started'); 
+  fs.writeFileSync(__dirname + '/start.log', 'started'); 
 });
 
 // Routing
