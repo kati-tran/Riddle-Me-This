@@ -1,3 +1,4 @@
+// client side
 $(function() {
   var FADE_TIME = 150; // ms
   var TYPING_TIMER_LENGTH = 400; // ms
@@ -318,7 +319,20 @@ $(function() {
 //Join into an Existing Game
 function joinGame(){
   socket.emit('joinGame');
+
+  //my bs
+
 };
+
+socket.on("addroom", function(data) {
+    socket.emit('subscribe', data);
+    console.log("add", data.room);
+});
+
+
+socket.on("roomChanged", function(data) {
+    console.log("roomChanged", data);
+});
 
 socket.on('joinSuccess', function (data) {
   log('Joining the following game: ' + data.gameId);

@@ -4,7 +4,7 @@ var app = express();
 var fs = require('fs');
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 5000;
 var loopLimit = 0;
 
 server.listen(port, function () {
@@ -39,6 +39,9 @@ function buildGame(socket) {
   username: socket.username,
   gameId: gameObject.id
 });
+
+       socket.emit('addroom', {room:gameObject.id});
+      console.log('????')
 
 
 }
@@ -95,8 +98,12 @@ function gameSeeker (socket) {
         gameId: gameCollection.gameList[rndPick]['gameObject']['id'] });
 
       console.log( socket.username + " has been added to: " + gameCollection.gameList[rndPick]['gameObject']['id']);
+      socket.emit('addroom', {room: gameCollection.gameList[rndPick]['gameObject']['id']});
+      console.log('????')
+    } 
 
-    } else {
+
+    else {
 
       gameSeeker(socket);
     }
@@ -108,13 +115,34 @@ function gameSeeker (socket) {
 
 var numUsers = 0;
 
-io.on('connection', function (socket) {
+io.sockets.on('connection', function (socket) {
   var addedUser = false;
+
+
+
+    socket.on('subscribe', function(data) {
+      socket.leaveAll();
+      socket.join(data.room); })
+
+    socket.on('unsubscribe', function(data) { socket.leave(data.room); })
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
     // we tell the client to execute 'new message'
-    socket.broadcast.emit('new message', {
+
+
+    for(var key in socket.rooms) {
+      room = key;
+    }
+
+    console.log(socket.rooms);
+    console.log(socket.rooms[0]);
+    console.log('aaaaaaaaa');
+    console.log(room);
+
+
+
+    socket.broadcast.to(room).emit('new message', {
       username: socket.username,
       message: data
     });
@@ -136,6 +164,7 @@ io.on('connection', function (socket) {
       username: socket.username,
       numUsers: numUsers
     });
+    socket.emit('addroom', {room:'lobby'});
   });
 
   // when the client emits 'typing', we broadcast it to others
@@ -192,6 +221,7 @@ io.on('connection', function (socket) {
       gameSeeker(socket);
       
     }
+
 
   });
 
