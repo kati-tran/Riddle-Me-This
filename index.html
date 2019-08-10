@@ -1,11 +1,38 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <style> 
+body {
+    animation: 7000ms ease-in-out infinite color-change;
+}
+@keyframes color-change {
+  0% {
+    background-color: #45a3e5;
+  }
+  20% {
+    background-color: #66bf39;
+  }
+  40% {
+    background-color: #eb670f;
+  }
+  60% {
+    background-color: #ff3355;
+  }
+  80% {
+    background-color: #864cbf;
+  }
+  100% {
+    background-color: #45a3e5;
+  }
+</style>
   <meta charset="UTF-8">
   <title>Socket.IO Gameserver Example</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="gameContainer">
+  </div>
+
   <ul class="pages">
     <li class="chat page">
     <div class='gameButtons'>
@@ -15,7 +42,7 @@
        <br>
 
     </div>
-      <div class="chatArea">
+      <div class="chatContainer">
         <ul class="messages"></ul>
       </div>
     <input class="inputMessage" placeholder="Type here..."/>
@@ -39,3 +66,5 @@
 
 </body>
 </html>
+
+
