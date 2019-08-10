@@ -29,21 +29,21 @@ var gameCollection =  new function() {
 function buildGame(socket) {
 
 
- var gameObject = {};
- gameObject.id = (Math.random()+1).toString(36).slice(2, 18);
- gameObject.playerOne = socket.username;
- gameObject.playerTwo = null;
- gameCollection.totalGameCount ++;
- gameCollection.gameList.push({gameObject});
+	 var gameObject = {};
+	 gameObject.id = (Math.random()+1).toString(36).slice(2, 18);
+	 gameObject.playerOne = socket.username;
+	 gameObject.playerTwo = null;
+	 gameCollection.totalGameCount ++;
+	 gameCollection.gameList.push({gameObject});
 
- console.log("Game Created by "+ socket.username + " w/ " + gameObject.id);
- io.emit('gameCreated', {
-  username: socket.username,
-  gameId: gameObject.id
-});
+	 console.log("Game Created by "+ socket.username + " w/ " + gameObject.id);
+	 io.emit('gameCreated', {
+	  username: socket.username,
+	  gameId: gameObject.id
+	});
 
-    socket.emit('addroom', {room:gameObject.id});
-    console.log('????');
+	    socket.emit('addroom', {room:gameObject.id});
+	    console.log('????');
 
 }
 
@@ -112,15 +112,13 @@ function gameSeeker (socket) {
   }
 }
 
-
+var players = {}
 // Chatroom
 
 var numUsers = 0;
 
 io.sockets.on('connection', function (socket) {
   var addedUser = false;
-
-
 
     socket.on('subscribe', function(data) {
 
@@ -149,10 +147,9 @@ io.sockets.on('connection', function (socket) {
     console.log(socket.room);
 
 
-
     socket.broadcast.to(socket.room).emit('new message', {
       username: socket.username,
-      message: data
+      message: data,
     });
   });
 
@@ -265,3 +262,57 @@ function getRoom(roomArray) {
 
 
 
+//my shit does work yeet
+var gameState = 0
+var testlist = ['apples','banana','orange','dinosaur','hello','testing','type','answer']
+var move = '';
+
+function basicGameplay(){
+	var move = testlist[Math.floor(Math.random()*testlist.length)];
+	gameState = 1;
+	for(var i in players){
+		var playerWin = playerWinCheck(players[i].message);
+		if(playerWin){
+			players[i].score += 1;
+		}
+	}
+}
+
+function playerWinCheck(message){
+	var playerWins = false;
+	if(message == move){
+		playerWins = true;
+	}
+	return playerWins;
+}
+
+setInterval(function(){
+	basicGameplay();},3000);
+
+    // var ridList = {{riddles|safe}}; 
+    // var placement = 0;
+    // var rounds = 3;
+    // //var rou = 1;
+
+    // //function round(){
+    // //    if (rounds!=0)
+    // //    {
+    // //        document.getElementById("demo").innerHTML = "Round " + rou;
+    // //        rou += 1;
+    // //    }
+    // //    
+    // //}
+    // function getRiddles() {   
+    //     if(rounds != 0)
+    //     {
+    //         document.getElementById("demo").innerHTML = ridList[placement][0];
+    //         document.getElementById("answer").innerHTML = ridList[placement][1];
+    //         placement += 1;
+    //         rounds -= 1;
+    //     }
+    // }
+
+    // getRiddles();
+    // setInterval(function(){
+    //     getRiddles();
+    // }, 3000);
