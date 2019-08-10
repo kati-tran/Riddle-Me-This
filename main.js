@@ -327,12 +327,9 @@ function joinGame(){
 socket.on("addroom", function(data) {
     socket.emit('subscribe', data);
     console.log("add", data.room);
+
 });
 
-
-socket.on("roomChanged", function(data) {
-    console.log("roomChanged", data);
-});
 
 socket.on('joinSuccess', function (data) {
   log('Joining the following game: ' + data.gameId);
