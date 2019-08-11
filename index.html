@@ -31,6 +31,7 @@ body {
 </head>
 <body>
   <div class="gameContainer">
+      <p id="demo"></p>
   </div>
 
   <ul class="pages">
@@ -63,7 +64,39 @@ body {
   <script src="/socket.io/socket.io.js"></script>
   <script src="/main.js"></script>
 
+<script type="text/javascript">
+  var gameState = 0
+  var testlist = ['apples','banana','orange','dinosaur','hello','testing','type','answer', 'word', 'dog', 'cat', 'yeet','dingle','hopper','once','upon','aaaayyy','time','they','did','surgery','on','a','grape','big','chungus','miss','keesha','jared','nineteen','never','fucking','learned','how','to','read']
+  var rounds = 3;
 
+  function basicGameplay(){
+    var move = testlist[Math.floor(Math.random()*testlist.length)];
+    //if(rounds != 0)
+     // {
+          document.getElementById("demo").innerHTML = move;
+      //    rounds -= 1;
+     // }
+    // gameState = 1;
+    // for(var i in players){
+    //   var playerWin = playerWinCheck(players[i].message);
+    //   if(playerWin){
+    //     players[i].score += 1;
+    //   }
+    //}
+  }
+
+  function playerWinCheck(message){
+    var playerWins = false;
+    if(message == move){
+      playerWins = true;
+    }
+    return playerWins;
+  }
+
+  basicGameplay();
+  setInterval(function(){
+    basicGameplay();},3000);
+</script>
 </body>
 </html>
 
