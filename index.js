@@ -24,26 +24,28 @@ var gameCollection =  new function() {
 
 };
 
-
-
 function buildGame(socket) {
 
 
-	 var gameObject = {};
-	 gameObject.id = (Math.random()+1).toString(36).slice(2, 18);
-	 gameObject.playerOne = socket.username;
-	 gameObject.playerTwo = null;
-	 gameCollection.totalGameCount ++;
-	 gameCollection.gameList.push({gameObject});
+ var gameObject = {};
+ gameObject.id = (Math.random()+1).toString(36).slice(2, 18);
+ gameObject.playerList = [socket.username];
+ gameObject.numPlayers = 1;
+ gameCollection.totalGameCount ++;
+ gameCollection.gameList.push({gameObject});
 
-	 console.log("Game Created by "+ socket.username + " w/ " + gameObject.id);
-	 io.emit('gameCreated', {
-	  username: socket.username,
-	  gameId: gameObject.id
-	});
 
-	    socket.emit('addroom', {room:gameObject.id});
-	    console.log('????');
+ console.log("Game Created by "+ socket.username + " w/ " + gameObject.id);
+ io.emit('gameCreated', {
+  username: socket.username,
+  gameId: gameObject.id
+});
+
+   socket.emit('addroom', {room:gameObject.id});
+   console.log('????');
+   console.log('hello' + gameObject.numPlayers);
+   console.log('hello' + gameObject.playerList);
+
 
 }
 
@@ -52,10 +54,11 @@ function killGame(socket) {
   var notInGame = true;
   for(var i = 0; i < gameCollection.totalGameCount; i++){
 
-    var gameId = gameCollection.gameList[i]['gameObject']['id']
+    var game = gameCollection.gameList[i]['gameObject'];
+    var gameId = gameCollection.gameList[i]['gameObject']['id'];
     var plyr1Tmp = gameCollection.gameList[i]['gameObject']['playerOne'];
     var plyr2Tmp = gameCollection.gameList[i]['gameObject']['playerTwo'];
-    
+
     if (plyr1Tmp == socket.username){
       --gameCollection.totalGameCount; 
       console.log("Destroy Game "+ gameId + "!");
@@ -73,6 +76,7 @@ function killGame(socket) {
       notInGame = false;
 
     } 
+
 
   }
 
@@ -92,17 +96,39 @@ function gameSeeker (socket) {
 
   } else {
     var rndPick = Math.floor(Math.random() * gameCollection.totalGameCount);
+
+    game = gameCollection.gameList[rndPick]['gameObject'];
+
+    if (game['numPlayers'] < 3) // change MAX number of players in a room here
+    {
+          socket.emit('addroom', {room: game['id']});
+    console.log('????');
+      socket.emit('joinSuccess', {gameId: game['id'] });
+       game['playerList'].push([socket.username]);
+        game['numPlayers']++;
+
+      console.log( socket.username + " has been added to: " + game['id']);
+      console.log(game['numPlayers']);
+    
+
+    }
+
+    
+
+    /*
     if (gameCollection.gameList[rndPick]['gameObject']['playerTwo'] == null)
     {
       gameCollection.gameList[rndPick]['gameObject']['playerTwo'] = socket.username;
       socket.emit('joinSuccess', {
         gameId: gameCollection.gameList[rndPick]['gameObject']['id'] });
 
-      console.log( socket.username + " has been added to: " + gameCollection.gameList[rndPick]['gameObject']['id']);
-      socket.emit('addroom', {room: gameCollection.gameList[rndPick]['gameObject']['id']});
-
-
+      game = gameCollection.gameList[rndPick]['gameObject'];
+      console.log( socket.username + " has been added to: " + game['id']);
+      
+    socket.emit('addroom', {room: gameCollection.gameList[rndPick]['gameObject']['id']});
+    console.log('????');
     } 
+    */
 
 
     else {
@@ -112,7 +138,7 @@ function gameSeeker (socket) {
   }
 }
 
-var players = {}
+
 // Chatroom
 
 var numUsers = 0;
@@ -120,44 +146,40 @@ var numUsers = 0;
 io.sockets.on('connection', function (socket) {
   var addedUser = false;
 
+
+
     socket.on('subscribe', function(data) {
-
       socket.leaveAll();
-      socket.join(data.room);
-          //save game room name in session
-      socket.room = data.room;
-      console.log(socket.room);
+      socket.join(data.room); 
+  })
 
-
-
-    })
-
-    socket.on('unsubscribe', function(data) {
-      socket.leave(data.room); 
-    })
+    socket.on('unsubscribe', function(data) { socket.leave(data.room); })
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
     // we tell the client to execute 'new message'
 
 
+    for(var key in socket.rooms) {
+      room = key;
+    }
 
     console.log(socket.rooms);
+    console.log(socket.rooms[0]);
     console.log('aaaaaaaaa');
-    console.log(socket.room);
+    console.log(room);
 
 
-    socket.broadcast.to(socket.room).emit('new message', {
+
+    socket.broadcast.to(room).emit('new message', {
       username: socket.username,
-      message: data,
+      message: data
     });
   });
 
   // when the client emits 'add user', this listens and executes
   socket.on('add user', function (username) {
     if (addedUser) return;
-
-    socket.emit('addroom', {room:"lobby"});
 
     // we store the username in the socket session for this client
     socket.username = username;
@@ -166,26 +188,24 @@ io.sockets.on('connection', function (socket) {
     socket.emit('login', {
       numUsers: numUsers
     });
-    
     // echo globally (all clients) that a person has connected
-    socket.broadcast.to('lobby').emit('user joined', {
-
+    socket.broadcast.emit('user joined', {
       username: socket.username,
-      numUsers: numUsers,
+      numUsers: numUsers
     });
-
+    socket.emit('addroom', {room:'lobby'});
   });
 
   // when the client emits 'typing', we broadcast it to others
   socket.on('typing', function () {
-    socket.broadcast.to(socket.room).emit('typing', {
+    socket.broadcast.emit('typing', {
       username: socket.username
     });
   });
 
   // when the client emits 'stop typing', we broadcast it to others
   socket.on('stop typing', function () {
-    socket.broadcast.to(socket.room).emit('stop typing', {
+    socket.broadcast.emit('stop typing', {
       username: socket.username
     });
   });
@@ -196,8 +216,8 @@ io.sockets.on('connection', function (socket) {
       --numUsers;
       killGame(socket);
 
-      // echo to current room
-      socket.broadcast.to(socket.room).emit('user left', {
+      // echo globally that this client has left
+      socket.broadcast.emit('user left', {
         username: socket.username,
         numUsers: numUsers
       });
@@ -217,7 +237,7 @@ io.sockets.on('connection', function (socket) {
         alreadyInGame = true;
         console.log(socket.username + " already has a Game!");
 
-        socket.broadcast.to(socket.room).emit('alreadyJoined', {
+        socket.emit('alreadyJoined', {
           gameId: gameCollection.gameList[i]['gameObject']['id']
         });
 
@@ -251,68 +271,5 @@ io.sockets.on('connection', function (socket) {
 
 });
 
-function getRoom(roomArray) {
-
-  for(var key in roomArray) {
-      room = key;
-  }
-  return room;
-
-}
 
 
-
-//my shit does work yeet
-var gameState = 0
-var testlist = ['apples','banana','orange','dinosaur','hello','testing','type','answer']
-var move = '';
-
-function basicGameplay(){
-	var move = testlist[Math.floor(Math.random()*testlist.length)];
-	gameState = 1;
-	for(var i in players){
-		var playerWin = playerWinCheck(players[i].message);
-		if(playerWin){
-			players[i].score += 1;
-		}
-	}
-}
-
-function playerWinCheck(message){
-	var playerWins = false;
-	if(message == move){
-		playerWins = true;
-	}
-	return playerWins;
-}
-
-setInterval(function(){
-	basicGameplay();},3000);
-
-    // var ridList = {{riddles|safe}}; 
-    // var placement = 0;
-    // var rounds = 3;
-    // //var rou = 1;
-
-    // //function round(){
-    // //    if (rounds!=0)
-    // //    {
-    // //        document.getElementById("demo").innerHTML = "Round " + rou;
-    // //        rou += 1;
-    // //    }
-    // //    
-    // //}
-    // function getRiddles() {   
-    //     if(rounds != 0)
-    //     {
-    //         document.getElementById("demo").innerHTML = ridList[placement][0];
-    //         document.getElementById("answer").innerHTML = ridList[placement][1];
-    //         placement += 1;
-    //         rounds -= 1;
-    //     }
-    // }
-
-    // getRiddles();
-    // setInterval(function(){
-    //     getRiddles();
-    // }, 3000);
