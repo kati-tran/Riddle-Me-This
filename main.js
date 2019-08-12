@@ -31,7 +31,7 @@ $(function() {
   function addParticipantsMessage (data) {
     var message = '';
     if (data.numUsers === 1) {
-      message += "Crickets...It's Just YOU and ME -Robot";
+      message += "I walk a lonely road. The only one that I have ever known. One(1) user online";
     } else {
       message += "there are " + data.numUsers + " players in the Lobby";
     }
@@ -355,7 +355,7 @@ socket.on('notInGame', function () {
 });
 
 socket.on('gameDestroyed', function (data) { 
-  log( data.gameOwner+ ' destroyed game: ' + data.gameId);
+  log(data.lastPlayer + ' destroyed game: ' + data.gameId);
 
 });
 
