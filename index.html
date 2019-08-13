@@ -58,12 +58,15 @@ body {
       <ul class="Users"></ul>
         </div>
     <li class="login page">
-      <div class="form">
+      <form action = '/test/submit' method = 'post'>
         <h3 class="title">What's your nickname?</h3>
-        <input class="usernameInput" type="text" maxlength="14" />
-      </div>
+        <input class="usernameInput" type="text" maxlength="14" / name = "username">
+        <button type = "submit">TEST</button>
+      </form>
     </li>
   </ul>
+
+console.log(req.body.username);
 
   <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
