@@ -13,6 +13,7 @@ $(function() {
   var $usernameInput = $('.usernameInput'); // Input for username
   var $messages = $('.messages'); // Messages area
   var $inputMessage = $('.inputMessage'); // Input message input box
+  //var $usersHTML = $('.user');
 
   var $loginPage = $('.login.page'); // The login page
   var $chatPage = $('.chat.page'); // The chatroom page
@@ -26,7 +27,16 @@ $(function() {
   var lastTypingTime;
   var $currentInput = $usernameInput.focus();
 
+  var userList = [];
   var socket = io();
+
+  socket.on('update', function (users){
+      userList = users;
+      $('#user').empty();
+      for(var i=0; i<userList.length; i++) {
+          $('#user').append("<h1>" + userList[i] + "</h1>"); 
+      }
+  });
 
   function addParticipantsMessage (data) {
     var message = '';
@@ -247,6 +257,7 @@ $(function() {
 
   // Socket events
 
+
   // Whenever the server emits 'login', log the login message
   socket.on('login', function (data) {
     connected = true;
@@ -262,7 +273,6 @@ $(function() {
   socket.on('new message', function (data) {
     addChatMessage(data);
   });
-
 
 
   // Whenever the server emits 'user joined', log it in the chat body

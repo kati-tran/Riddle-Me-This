@@ -160,6 +160,7 @@ function gameSeeker (socket) {
 // Chatroom
 
 var numUsers = 0;
+var users = []
 
 io.sockets.on('connection', function (socket) {
 
@@ -182,15 +183,18 @@ io.sockets.on('connection', function (socket) {
     for(var key in socket.rooms) {
       room = key;
     }
+    socket.score += 1;
 
     console.log('Current room is: ' + room);
 
 
     socket.broadcast.to(room).emit('new message', {
       username: socket.username,
-      message: data
+      message: data,
+      score: socket.score
     });
   });
+
 
   // when the client emits 'add user', this listens and executes
   socket.on('add user', function (username) {
@@ -198,15 +202,20 @@ io.sockets.on('connection', function (socket) {
 
     // we store the username in the socket session for this client
     socket.username = username;
+    socket.score = 0;
     ++numUsers;
+    users.push(username);
     addedUser = true;
+
+	updateClients(); 
     socket.emit('login', {
       numUsers: numUsers
     });
     // echo globally (all clients) that a person has connected
     socket.broadcast.emit('user joined', {
       username: socket.username,
-      numUsers: numUsers
+      numUsers: numUsers,
+      score: socket.score
     });
     socket.emit('addroom', {room:'lobby'}); // when a user is added to rmt, they join the lobby
   });
@@ -230,14 +239,25 @@ io.sockets.on('connection', function (socket) {
     if (addedUser) {
       --numUsers;
       killGame(socket);
-
+		for (var i=0; i<users.length;i++){
+		  if(users[i] == socket.username){
+		    delete users[i];
+		    delete [socket.username]
+		  	}
+		  }
+		updateClients();
       // echo globally that this client has left
       socket.broadcast.emit('user left', {
         username: socket.username,
         numUsers: numUsers
       });
     }
+    updateClients();
   });
+
+    function updateClients() {
+        io.sockets.emit('update', users);
+    }
 
 
   socket.on('joinGame', function (){
@@ -280,6 +300,7 @@ io.sockets.on('connection', function (socket) {
    else {
     killGame(socket);
   }
+  
 
 });
 

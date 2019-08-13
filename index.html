@@ -30,8 +30,13 @@ body {
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="userboard">
+    <div id="users">
+      <p id ="user"></p>
+    </div>
+  </div>
   <div class="gameContainer">
-      <p id="demo"></p>
+      <p class = "printwords" id="demo"></p>
   </div>
 
   <ul class="pages">
@@ -65,6 +70,7 @@ body {
   <script src="/main.js"></script>
 
 <script type="text/javascript">
+
   var gameState = 0
   var testlist = ['apples','banana','orange','dinosaur','hello','testing','type','answer', 'word', 'dog', 'cat', 'yeet','dingle','hopper','once','upon','aaaayyy','time','they','did','surgery','on','a','grape','big','chungus','miss','keesha','jared','nineteen','never','fucking','learned','how','to','read']
   var rounds = 3;
@@ -96,6 +102,7 @@ body {
   basicGameplay();
   setInterval(function(){
     basicGameplay();},3000);
+
 </script>
 </body>
 </html>
