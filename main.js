@@ -34,7 +34,9 @@ $(function() {
       userList = users;
       $('#user').empty();
       for(var i=0; i<userList.length; i++) {
+        if (userList[i] != null){
           $('#user').append("<h1>" + userList[i] + "</h1>"); 
+        }
       }
   });
 
