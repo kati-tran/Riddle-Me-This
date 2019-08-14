@@ -47,7 +47,7 @@
 #go
 {
 	position:absolute;
-  left:50%; 
+  float:right;
 
 }
 
@@ -62,10 +62,22 @@
   border-radius: 25px;
 }
 
+.form
+{
+  width:300px;
+  height:40px;
+  display: inline-block;
+}
+
 
 .username
 {
-  position:relative;
   width:400px;
   height:50px;
+}
+
+#usernamecontainer
+{
+  display: inline-block;
+  position: relative;
 }

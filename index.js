@@ -19,14 +19,12 @@ app.set('view engine', 'pug');
 // Routing
 app.use(express.static(__dirname));
 
-// Entire gameCollection Object holds all games and info
 
 app.get('/', function(req, res){
 	res.render('index')
 });
 app.post('/', function(req, res){
-  const username = req.body.username
-	res.redirect('/lobby',  {username: req.username})
+	res.redirect('/lobby')
 });
 app.get('/lobby', function(req, res){
   res.render('lobby')
@@ -36,8 +34,13 @@ app.get('/terms_conditions', function(req, res){
   res.render('tos')
 });
 
+app.get('/source_code', function(req, res){
+  res.redirect('https://github.com/alexkumar520/Riddle-Me-This')
+});
 
 
+
+// Entire gameCollection Object holds all games and info
 var gameCollection =  new function() {
 
   this.totalGameCount = 0,

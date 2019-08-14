@@ -1,7 +1,8 @@
 extends master.pug
 block head    
     link(rel='stylesheet', href='style.css')
-    link(rel='stylesheet', href='static/index.css')
+    link(rel='stylesheet', href='static/index.css')       
+    link(href='https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap', rel='stylesheet')
 block content
     .userboard
       #users
@@ -30,12 +31,35 @@ block content
         .usersList
           ul.Users
       li.login.page
-        .form
-          input#go.button1(type='submit', value='Go!')
-          |                     
-          input.usernameInput(type='text', name='username', placeholder=' ☺', required='')
-          |                       
-          label.small-text(for='username', style='top:50%')  nickname
+        .stripe
+          h1
+            a(href='/')  Riddle Me This!
+        #avatar_container
+          #avatar_select
+          |                 
+          label.small-text  choose your fighter
+        #usernamecontainer.form                  
+            input.usernameInput(type='text', name='username', placeholder=' ☺', required='')
+            |
+            input#go.button1(type='submit', value='Go!')
+            |                       
+            label.small-text(for='username', style='top:50%')  nickname
+        #info_container
+          button.accordion(id='collapse in', data-parent='#accordion') Updates
+          |             
+          .panel
+            p And I oop-
+          |             
+          button.accordion(data-parent='#accordion') How to Play
+          |
+          .panel
+            p ????????????/
+          |             
+          button.accordion(data-parent='#accordion') About
+          |             
+          .panel
+            p Riddle Me This! is a sdjfsdf
+
     |     
     script(src='https://code.jquery.com/jquery-1.10.2.min.js')
     |     
@@ -72,3 +96,19 @@ block content
       basicGameplay();
       setInterval(function(){
       basicGameplay();},3000);
+    |
+    script.
+      var acc = document.getElementsByClassName("accordion");
+      var i;
+
+      for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+          this.classList.toggle("active");
+          var panel = this.nextElementSibling;
+          if (panel.style.maxHeight){
+            panel.style.maxHeight = null;
+          } else {
+            panel.style.maxHeight = panel.scrollHeight + "px";
+          } 
+        });
+      }
