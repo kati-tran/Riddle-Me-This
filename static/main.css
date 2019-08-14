@@ -98,7 +98,6 @@ input[type=text]
 
 body {
   animation: 7000ms ease-in-out infinite color-change;
-  margin:0;
 }
 
 .wrapper
@@ -110,7 +109,6 @@ body {
   padding-left: 22.5%;
   padding-right: 22.5%;
   display: inline-block;
-  overflow: auto;
 
 
 }

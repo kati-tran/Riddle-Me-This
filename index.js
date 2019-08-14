@@ -32,6 +32,10 @@ app.get('/lobby', function(req, res){
   res.render('lobby')
 });
 
+app.get('/terms_conditions', function(req, res){
+  res.render('tos')
+});
+
 
 
 var gameCollection =  new function() {
