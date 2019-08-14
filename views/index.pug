@@ -1,0 +1,109 @@
+doctype html
+html.
+  <head>
+    <style> 
+  body {
+      animation: 7000ms ease-in-out infinite color-change;
+  }
+  @keyframes color-change {
+    0% {
+      background-color: #45a3e5;
+    }
+    20% {
+      background-color: #66bf39;
+    }
+    40% {
+      background-color: #eb670f;
+    }
+    60% {
+      background-color: #ff3355;
+    }
+    80% {
+      background-color: #864cbf;
+    }
+    100% {
+      background-color: #45a3e5;
+    }
+  </style>
+    <meta charset="UTF-8">
+    <title>Socket.IO Gameserver Example</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="userboard">
+      <div id="users">
+        <p id ="user"></p>
+      </div>
+    </div>
+    <div class="gameContainer">
+        <p class = "printwords" id="demo"></p>
+    </div>
+
+    <ul class="pages">
+      <li class="chat page">
+      <div class='gameButtons'>
+         <button class='joinGame' placeholder="Join Game"/>Join Game</button>
+         <br>
+         <button class='leaveGame' placeholder="Leave Game"/>Exit Game</button>
+         <br>
+
+      </div>
+        <div class="chatContainer">
+          <ul class="messages"></ul>
+        </div>
+      <input class="inputMessage" placeholder="Type here..."/>
+      </li>
+        <li class="usersList">
+      <div class="usersList">
+        <ul class="Users"></ul>
+          </div>
+      <li class="login page">
+        <div class="form">
+          <h3 class="title">What's your nickname?</h3>
+          <input class="usernameInput" type="text" maxlength="14" />
+        </div>
+      </li>
+    </ul>
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/main.js"></script>
+
+  <script type="text/javascript">
+
+    var gameState = 0
+    var testlist = ['apples','banana','orange','dinosaur','hello','testing','type','answer', 'word', 'dog', 'cat', 'yeet','dingle','hopper','once','upon','aaaayyy','time','they','did','surgery','on','a','grape','big','chungus','miss','keesha','jared','nineteen','never','fucking','learned','how','to','read']
+    var rounds = 3;
+
+    function basicGameplay(){
+      var move = testlist[Math.floor(Math.random()*testlist.length)];
+      //if(rounds != 0)
+       // {
+            document.getElementById("demo").innerHTML = move;
+        //    rounds -= 1;
+       // }
+      // gameState = 1;
+      // for(var i in players){
+      //   var playerWin = playerWinCheck(players[i].message);
+      //   if(playerWin){
+      //     players[i].score += 1;
+      //   }
+      //}
+    }
+
+    function playerWinCheck(message){
+      var playerWins = false;
+      if(message == move){
+        playerWins = true;
+      }
+      return playerWins;
+    }
+
+    basicGameplay();
+    setInterval(function(){
+      basicGameplay();},3000);
+
+  </script>
+  </body>
+
+

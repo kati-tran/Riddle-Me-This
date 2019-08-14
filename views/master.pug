@@ -1,0 +1,38 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    |         
+    title Riddle Me This!
+    |         
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
+    |         
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css')
+    |         
+    link(href='https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap', rel='stylesheet')
+    |         
+    link(href='https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap', rel='stylesheet')
+    |         
+    link(rel='stylesheet', href='static/main.css')
+    |
+    block head
+  |     
+  body
+    .stripe
+      h1
+        a(href='/')  Riddle Me This!
+    |         
+    .wrapper
+        |
+        block content
+        |
+        div
+          #footer
+            p
+              a(href='/') Contact Us
+              |    |
+              |                 
+              a(href='/terms_conditions') Terms and Conditions
+              |      |
+              |                 
+              a(href='/') Source Code

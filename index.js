@@ -6,16 +6,33 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 5000;
 var loopLimit = 0;
+//var router = express.Router()
+
+
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
   fs.writeFileSync(__dirname + '/start.log', 'started'); 
 });
 
+app.set('view engine', 'pug');
 // Routing
 app.use(express.static(__dirname));
 
 // Entire gameCollection Object holds all games and info
+
+app.get('/', function(req, res){
+	res.render('index')
+});
+app.post('/', function(req, res){
+  const username = req.body.username
+	res.redirect('/lobby',  {username: req.username})
+});
+app.get('/lobby', function(req, res){
+  res.render('lobby')
+});
+
+
 
 var gameCollection =  new function() {
 
