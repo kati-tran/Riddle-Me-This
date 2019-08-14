@@ -15,18 +15,23 @@ server.listen(port, function () {
   fs.writeFileSync(__dirname + '/start.log', 'started'); 
 });
 
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 // Routing
 app.use(express.static(__dirname));
 
 // Entire gameCollection Object holds all games and info
 
-app.get('/test', function(req, res, next){
-	res.render('test')
+app.get('/', function(req, res){
+	res.render('index')
 });
-app.post('/test/submit', function(req, res, next){
-	res.redirect('/test')
+app.post('/', function(req, res){
+  const username = req.body.username
+	res.redirect('/lobby',  {username: req.username})
 });
+app.get('/lobby', function(req, res){
+  res.render('lobby')
+});
+
 
 
 var gameCollection =  new function() {
