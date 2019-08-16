@@ -6,8 +6,12 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 5000;
 var loopLimit = 0;
+var passport = require('passport');
+var jsdom = require("jsdom");
+var JSDOM = jsdom.JSDOM;
 //var router = express.Router()
-
+const doc = new JSDOM("index");
+const document = doc.window.document;
 
 
 server.listen(port, function () {
@@ -24,11 +28,15 @@ app.get('/', function(req, res){
 	res.render('index')
 });
 app.post('/', function(req, res){
-	res.redirect('/lobby')
+  var username = req.query.username;
+  console.log(username)
+	res.redirect('/lobby/' + username)
 });
-app.get('/lobby', function(req, res){
-  res.render('lobby')
+app.get('/lobby/:username', function(req, res){
+  res.render('test', {output: req.params.username})
+  console.log(req.params.username)
 });
+//^^ testing change on this was originally lobby redirect 
 
 app.get('/terms_conditions', function(req, res){
   res.render('tos')
