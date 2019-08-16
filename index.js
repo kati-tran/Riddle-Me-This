@@ -49,6 +49,10 @@ app.get('/source_code', function(req, res){
   res.redirect('https://github.com/alexkumar520/Riddle-Me-This')
 });
 
+app.get('/test', function(req, res){
+  res.render('test')
+});
+
 /*
 app.get('/buttonTest', function(req, res){
   var destination = 'test';
@@ -317,7 +321,7 @@ io.sockets.on('connection', function (socket) {
 
 
   socket.on('joinGame', function (){
-    var destination = 'test.pug';
+    var destination = '/test';
     socket.emit('redirect', destination);
     
     console.log(socket.username + " wants to join a game");
