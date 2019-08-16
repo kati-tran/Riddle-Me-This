@@ -34,6 +34,7 @@ app.post('/', function(req, res){
   console.log(username)
 	res.redirect('/lobby/' + username)
 });
+///func below was test feel free to change :) works on Go button press.
 app.get('/lobby/:username', function(req, res){
   res.render('test', {title: "Hello!", output: req.params.username})
   console.log(req.params.username + "BOGA")
@@ -48,6 +49,16 @@ app.get('/source_code', function(req, res){
   res.redirect('https://github.com/alexkumar520/Riddle-Me-This')
 });
 
+/*
+app.get('/buttonTest', function(req, res){
+  var destination = 'test';
+  socket.emit('redirect', destination)
+});
+
+app.post('/buttonTest', function(req, res){
+  res.redirect('/buttonTest')
+});
+*/
 
 
 // Entire gameCollection Object holds all games and info
@@ -306,6 +317,9 @@ io.sockets.on('connection', function (socket) {
 
 
   socket.on('joinGame', function (){
+    var destination = 'test.pug';
+    socket.emit('redirect', destination);
+    
     console.log(socket.username + " wants to join a game");
 
     var alreadyInGame = false;
@@ -330,7 +344,7 @@ io.sockets.on('connection', function (socket) {
       
     }
 
-
+    
   });
 
 
