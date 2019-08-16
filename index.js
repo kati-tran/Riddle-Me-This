@@ -35,8 +35,8 @@ app.post('/', function(req, res){
 	res.redirect('/lobby/' + username)
 });
 app.get('/lobby/:username', function(req, res){
-  res.render('test', {output: req.params.username})
-  console.log(req.params.username)
+  res.render('test', {title: "Hello!", output: req.params.username})
+  console.log(req.params.username + "BOGA")
 });
 //^^ testing change on this was originally lobby redirect 
 
