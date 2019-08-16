@@ -52,7 +52,7 @@ function buildGame(socket) {
 
  var gameObject = {};
  gameObject.id = (Math.random()+1).toString(36).slice(2, 18);
- gameObject.playerList = [socket.id]; // adding players by socket ids bc usernames can be the same
+ gameObject.playerList = [socket.player]; // adding playerobjects
  gameObject.numPlayers = 1;
  gameCollection.totalGameCount++;
  gameCollection.gameList.push({gameObject});
@@ -68,21 +68,21 @@ function buildGame(socket) {
 });
 
    socket.emit('addroom', {room:gameObject.id});
-   console.log('There are now ' + gameObject.numPlayers + ' player(s) in game' + gameObject.id);
+   console.log('There are now ' + gameObject.numPlayers + ' player(s) in game ' + gameObject.id);
    console.log(gameObject.playerList);
 
 
 }
 
-/* not sure if i should add this or not--like it'd be good for organization but its not rly needed
-
-function buildPlayer(socket) {
+function buildPlayer(socket, username) {
   var playerObject = {}; // store the player in the socket session for this client
   playerObject.id = socket.id; // unique identifier
-  player.username = 
+  playerObject.username = username;
+  playerObject.score = 0; // initialized at zero
 
+  return playerObject;
 }
-*/
+
 
 
 function killGame(socket) {
@@ -92,8 +92,9 @@ function killGame(socket) {
 
     game = gameCollection.gameList[i]['gameObject'];
     gameId = game['id'];
+    player = socket.player;
 
-    if (game['playerList'].includes(socket.id)) // if the player is in the game
+    if (game['playerList'].includes(player)) // if the player is in the game
     {
 
       if (game['numPlayers']==1) // if the player is the last one in the game
@@ -103,13 +104,13 @@ function killGame(socket) {
         gameCollection.gameList.splice(i, 1);
         console.log(gameCollection.gameList);
         socket.emit('leftGame', { gameId: gameId });
-        io.emit('gameDestroyed', {gameId: gameId, lastPlayer: socket.username });
+        io.emit('gameDestroyed', {gameId: gameId, lastPlayer: player['username'] });
         notInGame = false;
       }
 
       else // if the player is not the last one in the game (i.e. there are others)
       {
-        console.log( "User {" + socket.id + ", " + socket.username + "} has left " + gameId);
+        console.log( "User {" + socket.id + ", " + player['username'] + "} has left " + gameId);
         socket.emit('leftGame', { gameId: gameId });
         notInGame = false;
 
@@ -125,7 +126,8 @@ function killGame(socket) {
       --game['numPlayers'];
       game['playerList'].splice(socket.indx, 1);
 
-      console.log("Users {" + game['playerList'] + "} remaining");
+      console.log("Users remaining:");
+      console.log(game['playerList']);
 
 
 
@@ -155,19 +157,20 @@ function gameSeeker (socket) {
 
     game = gameCollection.gameList[rndPick]['gameObject'];
     gameId = game['id'];
+    player = socket.player
 
     if (game['numPlayers'] < 3) // change MAX number of players in a room here
     {
       socket.emit('addroom', {room: gameId}); // add player to randomly picked room
 
       socket.emit('joinSuccess', {gameId: game['id'] });
-      game['playerList'].push(socket.id);
+      game['playerList'].push(player);
       game['numPlayers']++;
 
       // for deleting the player later on, need its index in player list
       socket.indx = game['numPlayers'] - 1;
 
-      console.log("User {" + socket.id + ", " + socket.username + "} has been added to: " + gameId);
+      console.log("User {" + socket.id + ", " + player['username'] + "} has been added to: " + gameId);
       console.log(game['playerList']);
     
 
@@ -213,7 +216,7 @@ io.sockets.on('connection', function (socket) {
 
 
     socket.broadcast.to(room).emit('new message', {
-      username: socket.username,
+      username: socket.player['username'],
       message: data,
       score: socket.score
     });
@@ -224,8 +227,15 @@ io.sockets.on('connection', function (socket) {
   socket.on('add user', function (username) {
     if (addedUser) return;
 
+    
     // we store the username in the socket session for this client
     socket.username = username;
+
+    //store player object in the socket
+    socket.player = buildPlayer(socket, username);
+    console.log(socket.player);
+
+
     socket.score = 0;
     ++numUsers;
     users.push(username);
@@ -235,9 +245,10 @@ io.sockets.on('connection', function (socket) {
     socket.emit('login', {
       numUsers: numUsers
     });
+
     // echo globally (all clients) that a person has connected
     socket.broadcast.emit('user joined', {
-      username: socket.username,
+      username: socket.player['username'],
       numUsers: numUsers,
       score: socket.score
     });
@@ -247,14 +258,14 @@ io.sockets.on('connection', function (socket) {
   // when the client emits 'typing', we broadcast it to others
   socket.on('typing', function () {
     socket.broadcast.emit('typing', {
-      username: socket.username
+      username: socket.player['username']
     });
   });
 
   // when the client emits 'stop typing', we broadcast it to others
   socket.on('stop typing', function () {
     socket.broadcast.emit('stop typing', {
-      username: socket.username
+      username: socket.player['username']
     });
   });
 
@@ -272,7 +283,7 @@ io.sockets.on('connection', function (socket) {
 		updateClients();
       // echo globally that this client has left
       socket.broadcast.emit('user left', {
-        username: socket.username,
+        username: socket.player['username'],
         numUsers: numUsers
       });
     }
@@ -291,9 +302,9 @@ io.sockets.on('connection', function (socket) {
 
     for(var i = 0; i < gameCollection.totalGameCount; i++){
       game = gameCollection.gameList[i]['gameObject'];
-      if (game['playerList'].includes(socket.username)){
+      if (game['playerList'].includes(socket.player)){
         alreadyInGame = true;
-        console.log(socket.username + " already has a Game!");
+        console.log(socket.player['username'] + " already has a Game!");
 
         socket.emit('alreadyJoined', {
           gameId: gameCollection.gameList[i]['gameObject']['id']
