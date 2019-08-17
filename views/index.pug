@@ -13,11 +13,23 @@ block content
     |     
     ul.pages
       li.chat.page
+        .stripe
+          h1
+            a(href='/')  Riddle Me This!
         .gameButtons
-          button.joinGame(placeholder='Join Game') Join Game
+          button.button1.joinGame(placeholder='Join Game') Join Game
           |          
           br
+          |
+          button.joinGame(placeholder='Join Existing Game') Join Existing Game
+          //CHANGE THIS
           |          
+          br
+          |
+          button.joinGame(placeholder='Create New Game') Create New Game
+          //CHANGE THIS
+          |          
+          br             
           button.leaveGame(placeholder='Leave Game') Exit Game
           |          
           br

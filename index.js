@@ -67,9 +67,10 @@ function buildGame(socket) {
   gameId: gameObject.id
 });
 
-   socket.emit('addroom', {room:gameObject.id});
-   console.log('There are now ' + gameObject.numPlayers + ' player(s) in game ' + gameObject.id);
-   console.log(gameObject.playerList);
+  socket.emit('joinSuccess', {gameId: gameObject.id }); // joinSuccess triggers game html
+  socket.emit('addroom', {room:gameObject.id});
+  console.log('There are now ' + gameObject.numPlayers + ' player(s) in game ' + gameObject.id);
+  console.log(gameObject.playerList);
 
 
 }
@@ -163,7 +164,7 @@ function gameSeeker (socket) {
     {
       socket.emit('addroom', {room: gameId}); // add player to randomly picked room
 
-      socket.emit('joinSuccess', {gameId: game['id'] });
+      socket.emit('joinSuccess', {gameId: game['id'] }); // joinSuccess triggers game html
       game['playerList'].push(player);
       game['numPlayers']++;
 
