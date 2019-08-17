@@ -22,15 +22,13 @@ server.listen(port, function () {
 app.set('view engine', 'pug');
 // Routing
 app.use(express.static(__dirname));
-app.use(express.urlencoded());
-app.use(express.json());
 
 
 app.get('/', function(req, res){
 	res.render('index')
 });
 app.post('/', function(req, res){
-  var username = req.body.username;
+  var username = req.query.username;
   console.log(username)
 	res.redirect('/lobby/' + username)
 });
