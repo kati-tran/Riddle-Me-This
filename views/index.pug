@@ -38,12 +38,12 @@ block content
           #avatar_select
           |                 
           label.small-text  choose your fighter
-        form(action='/', method='post')
-          input.usernameInput(type='text', name='username', placeholder=' ☺', required='')
-          |                 
-          input#go.button1(type='submit', value='Go!')
-          |                 
-          label.small-text(for='username', style='top:50%')  nickname
+        #usernamecontainer.form                  
+            input.usernameInput(type='text', name='username', placeholder=' ☺', required='')
+            |
+            input#go.button1(type='submit', value='Go!')
+            |                       
+            label.small-text(for='username', style='top:50%')  nickname
         #info_container
           button.accordion(id='collapse in', data-parent='#accordion') Updates
           |             
