@@ -371,9 +371,4 @@ socket.on('gameDestroyed', function (data) {
 
 });
 
-socket.on('redirect', function(destination){
-  console.log("arraydick");
-  window.location.href = destination;
-});
-
 });
