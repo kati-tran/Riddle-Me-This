@@ -6,12 +6,8 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 5000;
 var loopLimit = 0;
-var passport = require('passport');
-var jsdom = require("jsdom");
-var JSDOM = jsdom.JSDOM;
 //var router = express.Router()
-const doc = new JSDOM("index");
-const document = doc.window.document;
+
 
 
 server.listen(port, function () {
@@ -22,24 +18,17 @@ server.listen(port, function () {
 app.set('view engine', 'pug');
 // Routing
 app.use(express.static(__dirname));
-app.use(express.urlencoded());
-app.use(express.json());
 
 
 app.get('/', function(req, res){
 	res.render('index')
 });
 app.post('/', function(req, res){
-  var username = req.body.username;
-  console.log(username)
-	res.redirect('/lobby/' + username)
+	res.redirect('/lobby')
 });
-///func below was test feel free to change :) works on Go button press.
-app.get('/lobby/:username', function(req, res){
-  res.render('test', {title: "Hello!", output: req.params.username})
-  console.log(req.params.username + "BOGA")
+app.get('/lobby', function(req, res){
+  res.render('lobby')
 });
-//^^ testing change on this was originally lobby redirect 
 
 app.get('/terms_conditions', function(req, res){
   res.render('tos')
@@ -49,20 +38,6 @@ app.get('/source_code', function(req, res){
   res.redirect('https://github.com/alexkumar520/Riddle-Me-This')
 });
 
-app.get('/test', function(req, res){
-  res.render('test')
-});
-
-/*
-app.get('/buttonTest', function(req, res){
-  var destination = 'test';
-  socket.emit('redirect', destination)
-});
-
-app.post('/buttonTest', function(req, res){
-  res.redirect('/buttonTest')
-});
-*/
 
 
 // Entire gameCollection Object holds all games and info
@@ -92,9 +67,10 @@ function buildGame(socket) {
   gameId: gameObject.id
 });
 
-   socket.emit('addroom', {room:gameObject.id});
-   console.log('There are now ' + gameObject.numPlayers + ' player(s) in game ' + gameObject.id);
-   console.log(gameObject.playerList);
+  socket.emit('joinSuccess', {gameId: gameObject.id }); // joinSuccess triggers game html
+  socket.emit('addroom', {room:gameObject.id});
+  console.log('There are now ' + gameObject.numPlayers + ' player(s) in game ' + gameObject.id);
+  console.log(gameObject.playerList);
 
 
 }
@@ -188,7 +164,7 @@ function gameSeeker (socket) {
     {
       socket.emit('addroom', {room: gameId}); // add player to randomly picked room
 
-      socket.emit('joinSuccess', {gameId: game['id'] });
+      socket.emit('joinSuccess', {gameId: game['id'] }); // joinSuccess triggers game html
       game['playerList'].push(player);
       game['numPlayers']++;
 
@@ -322,9 +298,6 @@ io.sockets.on('connection', function (socket) {
 
 
   socket.on('joinGame', function (){
-    var destination = '/test';
-    socket.emit('redirect', destination);
-    
     console.log(socket.username + " wants to join a game");
 
     var alreadyInGame = false;
@@ -349,7 +322,7 @@ io.sockets.on('connection', function (socket) {
       
     }
 
-    
+
   });
 
 

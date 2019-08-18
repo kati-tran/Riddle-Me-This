@@ -15,6 +15,9 @@ $(function() {
   var $inputMessage = $('.inputMessage'); // Input message input box
   //var $usersHTML = $('.user');
 
+  var $userboard = $('.userboard'); // hide when barely in lobby
+  var $gameContainer = $('.gameContainer'); // hide when barely in lobby
+
   var $loginPage = $('.login.page'); // The login page
   var $chatPage = $('.chat.page'); // The chatroom page
   var $joinGame = $('.joinGame'); 
@@ -58,6 +61,8 @@ $(function() {
     if (username) {
       $loginPage.fadeOut();
       $chatPage.show();
+      $userboard.hide();
+      $gameContainer.hide();
       $loginPage.off('click');
       $currentInput = $inputMessage.focus();
 
@@ -332,9 +337,8 @@ $(function() {
 function joinGame(){
   socket.emit('joinGame');
 
-  //my bs
-
 };
+
 
 socket.on("addroom", function(data) {
     socket.emit('subscribe', data);
@@ -345,6 +349,9 @@ socket.on("addroom", function(data) {
 
 socket.on('joinSuccess', function (data) {
   log('Joining the following game: ' + data.gameId);
+  $userboard.show();
+  $gameContainer.show();
+
 });
 
 
@@ -356,6 +363,8 @@ socket.on('alreadyJoined', function (data) {
 
 function leaveGame(){
   socket.emit('leaveGame');
+  $userboard.hide();
+  $gameContainer.hide();
 };
 
 socket.on('leftGame', function (data) {
@@ -369,11 +378,6 @@ socket.on('notInGame', function () {
 socket.on('gameDestroyed', function (data) { 
   log(data.lastPlayer + ' destroyed game: ' + data.gameId);
 
-});
-
-socket.on('redirect', function(destination){
-  console.log("arraydick");
-  window.location.href = destination;
 });
 
 });

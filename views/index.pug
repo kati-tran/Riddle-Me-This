@@ -13,11 +13,23 @@ block content
     |     
     ul.pages
       li.chat.page
+        .stripe
+          h1
+            a(href='/')  Riddle Me This!
         .gameButtons
-          button.joinGame(placeholder='Join Game') Join Game
+          button.button1.joinGame(placeholder='Join Game') Join Game
           |          
           br
+          |
+          button.joinGame(placeholder='Join Existing Game') Join Existing Game
+          //CHANGE THIS
           |          
+          br
+          |
+          button.joinGame(placeholder='Create New Game') Create New Game
+          //CHANGE THIS
+          |          
+          br             
           button.leaveGame(placeholder='Leave Game') Exit Game
           |          
           br
@@ -38,12 +50,12 @@ block content
           #avatar_select
           |                 
           label.small-text  choose your fighter
-        form(action='/', method='post')
-          input.usernameInput(type='text', name='username', placeholder=' ☺', required='')
-          |                 
-          input#go.button1(type='submit', value='Go!')
-          |                 
-          label.small-text(for='username', style='top:50%')  nickname
+        #usernamecontainer.form                  
+            input.usernameInput(type='text', name='username', placeholder=' ☺', required='')
+            |
+            input#go.button1(type='submit', value='Go!')
+            |                       
+            label.small-text(for='username', style='top:50%')  nickname
         #info_container
           button.accordion(id='collapse in', data-parent='#accordion') Updates
           |             
