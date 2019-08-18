@@ -238,6 +238,7 @@ io.sockets.on('connection', function (socket) {
     socket.score += 1;
 
     console.log('Current room is: ' + room);
+    console.log('Current score is: ' + socket.score);
 
 
     socket.broadcast.to(room).emit('new message', {

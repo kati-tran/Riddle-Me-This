@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Frankenmint/mmserver#readme",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
     "express": "^4.17.1",
     "html": "^1.0.0",
     "jade": "^1.11.0",
@@ -24,6 +25,9 @@
     "nodemon": "^1.11.0",
     "passport": "^0.4.0",
     "pug": "^2.0.4",
+    "puppeteer": "^1.19.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
     "socket.io": "^2.2.0"
   }
 }
