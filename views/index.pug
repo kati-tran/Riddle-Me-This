@@ -54,7 +54,7 @@ block content
         #usernamecontainer.form                  
             input.usernameInput(type='text', name='username', placeholder=' ☺', required='')
             |
-            input#go.button1(type='submit', value='Go!')
+            input#go.button1(type='submit', value='Go!', onkeypress='return event.keyCode != 13')
             |                       
             label.small-text(for='username', style='top:50%')  nickname
         #info_container
