@@ -1,39 +1,36 @@
-const rp = require('request-promise');
+const axios = require('axios');
 
-const $ = require('cheerio');
+const cheerio = require('cheerio');
 
 const url = 'https://riddles.fyi/random-riddles/';
+//let siteName = "";
 
+let riddles = ""
+let answer = ""
 
-function riddleParse (url){
-rp(url)
-  .then(function(html) {
-  	{
-    	var riddle = $('.query-title-link', html).text();
-		var answer = $('.su-spoiler-content', html).text();
-		if (answer.split(" ").length > 3){
-			return riddleParse(url);
-		}
-		else{
-			//console.log(riddle)
-			//console.log(answer)
-			riddle_dict = {"Riddle": riddle, "Answer": answer};
-			//console.log(Object.values(riddle_dict))
-			//console.log(riddle_dict)
-			return riddle_dict;
-			
-		}
-	};
-  })
-
-  .catch(function(err) {
-    //handle error
-  });
+const fetchData = async() => {
+	const result = await axios.get(url);
+	return cheerio.load(result.data);
 }
 
+const getResults = async() => {
+	const $ = await fetchData();
+
+	riddles = $('.query-title-link').text()
+	answer = $('.su-spoiler-content').text()
+	console.log(riddles)
+	console.log(answer)
+	return {
+		riddles,
+		answer,
+	};
+};
+
+module.exports = getResults;
+
 //riddleParse(url)
-//var x = riddleParse(url);
-//console.log(x)
+// var x = riddleParse(url);
+// console.log(x)
 
 function allRiddles(rounds){
 	ridict = {}

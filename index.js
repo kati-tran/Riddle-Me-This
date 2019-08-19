@@ -6,6 +6,7 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 5000;
 var loopLimit = 0;
+const getResults = require("./riddleScraper")
 //var router = express.Router()
 
 
@@ -20,16 +21,17 @@ app.set('view engine', 'pug');
 app.use(express.static(__dirname));
 
 
-app.get('/', function(req, res){
-	res.render('index')
+app.get('/', async function(req, res, next){
+	const result = await getResults();
+	console.log(result);
+	res.render('index', result);
 });
 app.post('/', function(req, res){
 	res.redirect('/lobby')
 });
-app.get('/lobby', function(req, res){
+app.get('/lobby', function(req, res, next){
   res.render('lobby')
 });
-
 app.get('/terms_conditions', function(req, res){
   res.render('tos')
 });
@@ -37,7 +39,7 @@ app.get('/terms_conditions', function(req, res){
 app.get('/source_code', function(req, res){
   res.redirect('https://github.com/alexkumar520/Riddle-Me-This')
 });
-
+module.exports = express.Router();
 
 
 // Entire gameCollection Object holds all games and info
