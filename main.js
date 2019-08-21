@@ -21,7 +21,8 @@ $(function() {
   var $loginPage = $('.login.page'); // The login page
   var $chatPage = $('.chat.page'); // The chatroom page
   var $joinGame = $('.joinGame'); 
-  var $leaveGame = $('.leaveGame'); 
+  var $leaveGame = $('.leaveGame');
+  var $joinExGame = $('.joinExGame'); 
 
   // Prompt for setting a username
   var username;
@@ -257,6 +258,11 @@ $(function() {
 
   })
 
+  $joinExGame.click(function (){
+    joinExGame();
+  })
+
+
   $leaveGame.click(function () {
     leaveGame();
 
@@ -339,6 +345,12 @@ function joinGame(){
 
 };
 
+function joinExGame(){
+
+  socket.emit('joinExGame');
+  //console.log('peepeepoopoo');
+}
+
 
 socket.on("addroom", function(data) {
     socket.emit('subscribe', data);
@@ -358,6 +370,10 @@ socket.on('joinSuccess', function (data) {
 //Response from Server on existing User found in a game
 socket.on('alreadyJoined', function (data) {
   log('You are already in an Existing Game: ' + data.gameId);
+});
+
+socket.on('noneExist', function(data){
+  log('There are no available games!');
 });
 
 

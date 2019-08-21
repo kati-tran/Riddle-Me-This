@@ -48,6 +48,7 @@ var gameCollection =  new function() {
 
 };
 
+///add parameter for true or false when custom game or random game. 
 function buildGame(socket) {
 
  var gameObject = {};
@@ -320,6 +321,43 @@ io.sockets.on('connection', function (socket) {
       gameSeeker(socket);
       
     }
+
+
+  });
+
+  socket.on('joinExGame', function(){
+  	console.log(socket.username + " wants to join a game");
+
+    var alreadyInGame = false;
+    if (gameCollection.totalGameCount == 0){
+    	socket.emit('noneExist');
+    }
+
+    else { ///else block handles the joining of an existing game room, must be modified :)
+
+
+	    for(var i = 0; i < gameCollection.totalGameCount; i++){
+	      game = gameCollection.gameList[i]['gameObject'];
+	      if (game['playerList'].includes(socket.player)){
+	        alreadyInGame = true;
+	        console.log(socket.player['username'] + " already has a Game!");
+
+	        socket.emit('alreadyJoined', {
+	          gameId: gameCollection.gameList[i]['gameObject']['id']
+	        });
+
+	      }
+
+	    }
+	}
+	/*
+    if (alreadyInGame == false){
+
+
+      gameSeeker(socket);
+      
+    }
+    */
 
 
   });
