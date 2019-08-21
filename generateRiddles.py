@@ -24,6 +24,7 @@ def getRiddle() -> dict:
 #    x = getRiddle()
 #    for r in x.values():
 #        print(r)
+print(getRiddle())
 
 def allRiddles(ridict: dict, rounds: int) -> dict:
     '''Returns a dict with different riddles and no duplicates
