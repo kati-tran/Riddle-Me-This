@@ -22,7 +22,8 @@ $(function() {
   var $chatPage = $('.chat.page'); // The chatroom page
   var $joinGame = $('.joinGame'); 
   var $leaveGame = $('.leaveGame');
-  var $joinExGame = $('.joinExGame'); 
+  var $joinExGame = $('.joinExGame');
+  var $createPriGame = $('.createPriGame'); 
 
   // Prompt for setting a username
   var username;
@@ -268,6 +269,12 @@ $(function() {
 
   })
 
+  //ADDED CREATEPRIGAME FUNCTIONALITY 8/21/19
+  $createPriGame.click(function(){ 
+    createPriGame();
+
+  })
+
   // Socket events
 
 
@@ -345,10 +352,16 @@ function joinGame(){
 
 };
 
+//join created existing game private ~ 8/20/19
 function joinExGame(){
 
   socket.emit('joinExGame');
   //console.log('peepeepoopoo');
+}
+
+//create private game started ~ 8/21/19
+function createPriGame(){
+  socket.emit('createPriGame');
 }
 
 
