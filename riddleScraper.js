@@ -5,21 +5,26 @@ const cheerio = require('cheerio');
 const url = 'https://riddles.fyi/random-riddles/';
 //let siteName = "";
 
-let riddles = ""
-let answer = ""
+let riddles = []
+let answer = []
 
 const fetchData = async() => {
 	const result = await axios.get(url);
 	return cheerio.load(result.data);
 }
 
-const getResults = async() => {
+const getResults = async(rounds) => {
 	const $ = await fetchData();
 
-	riddles = $('.query-title-link').text()
-	answer = $('.su-spoiler-content').text()
-	console.log(riddles)
-	console.log(answer)
+	r = $('.query-title-link').text()
+	a = $('.su-spoiler-content').text()
+	if (a.split(" ").length > 3){
+		return getResults();
+	}
+	else{
+		riddles.push(r)
+		answer.push(a)
+	}
 	return {
 		riddles,
 		answer,

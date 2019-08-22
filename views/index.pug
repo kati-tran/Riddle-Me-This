@@ -9,8 +9,9 @@ block content
         p#user
     |     
     .gameContainer
-      p #{riddles}
-      p #{answer}
+      //p #{riddles}
+      p#demo
+      //p#answer
     |     
     ul.pages
       li.chat.page
@@ -82,13 +83,20 @@ block content
     |   
     script(type='text/javascript').
       var gameState = 0
-      var testlist = ['apples','banana','orange','dinosaur','hello','testing','type','answer', 'word', 'dog', 'cat', 'yeet','dingle','hopper','once','upon','aaaayyy','time','they','did','surgery','on','a','grape','big','chungus','miss','keesha','jared','nineteen','never','fucking','learned','how','to','read']
+      //var testlist = ["why","help","swag"];
+      //var testlist = each val in riddles
+      //var answertest = #{answer}
       var rounds = 3;
       function basicGameplay(){
+      var testlist = JSON.parse('!{JSON.stringify(riddles)}');
+      //console.log(testlist);
+
       var move = testlist[Math.floor(Math.random()*testlist.length)];
+      //var ans = answertest[Math.floor(Math.random()*answertest.length)];
       //if(rounds != 0)
       // {
       document.getElementById("demo").innerHTML = move;
+      //document.getElementById("answer").innerHTML = ans;
       //    rounds -= 1;
       // }
       // gameState = 1;

@@ -22,7 +22,7 @@ app.use(express.static(__dirname));
 
 
 app.get('/', async function(req, res, next){
-	const result = await getResults();
+	const result = await getResults(1);
 	console.log(result);
 	res.render('index', result);
 });
