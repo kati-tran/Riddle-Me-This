@@ -23,7 +23,7 @@ app.use(express.static(__dirname));
 
 app.get('/', async function(req, res, next){
 	const result = await getResults(1);
-	console.log(result);
+	console.log("scrapedRiddles");
 	res.render('index', result);
 });
 app.post('/', function(req, res){
@@ -330,8 +330,10 @@ io.sockets.on('connection', function (socket) {
 
   });
 
-  socket.on('joinExGame', function(){
-  	console.log(socket.username + " wants to join a game");
+  socket.on('joinExGame', function(exgameid){
+  	console.log(socket.player['username'] + " wants to join a game");
+
+    console.log("player inputted game code: " + exgameid);
 
     var alreadyInGame = false;
     if (gameCollection.totalGameCount == 0){
