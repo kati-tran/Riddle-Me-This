@@ -50,12 +50,15 @@ var gameCollection =  new function() {
 
 };
 
-function buildGame(socket) {
+///add parameter for true or false when custom game or random game. 
+function buildGame(socket, prival) {
 
  var gameObject = {};
  gameObject.id = (Math.random()+1).toString(36).slice(2, 18);
  gameObject.playerList = [socket.player]; // adding playerobjects
  gameObject.numPlayers = 1;
+ gameObject.prival = prival;
+ console.log(gameObject.prival);
  gameCollection.totalGameCount++;
  gameCollection.gameList.push({gameObject});
 
@@ -150,7 +153,7 @@ function gameSeeker (socket) {
   ++loopLimit;
   if (( gameCollection.totalGameCount == 0) || (loopLimit >= 20)) {
 
-    buildGame(socket);
+    buildGame(socket, false);
     loopLimit = 0;
 
   } 
@@ -323,6 +326,70 @@ io.sockets.on('connection', function (socket) {
       gameSeeker(socket);
       
     }
+
+
+  });
+
+  socket.on('joinExGame', function(){
+  	console.log(socket.username + " wants to join a game");
+
+    var alreadyInGame = false;
+    if (gameCollection.totalGameCount == 0){
+    	socket.emit('noneExist');
+    }
+
+    else { ///else block handles the joining of an existing game room, must be modified :)
+
+
+	    for(var i = 0; i < gameCollection.totalGameCount; i++){
+	      game = gameCollection.gameList[i]['gameObject'];
+	      if (game['playerList'].includes(socket.player)){
+	        alreadyInGame = true;
+	        console.log(socket.player['username'] + " already has a Game!");
+
+	        socket.emit('alreadyJoined', {
+	          gameId: gameCollection.gameList[i]['gameObject']['id']
+	        });
+
+	      }
+
+	    }
+	}
+	/*
+    if (alreadyInGame == false){
+
+
+      gameSeeker(socket);
+      
+    }
+    */
+
+
+  });
+
+  socket.on('createPriGame', function(){
+
+  	var alreadyInGame = false;
+  	for(var i = 0; i < gameCollection.totalGameCount; i++){
+      game = gameCollection.gameList[i]['gameObject'];
+      if (game['playerList'].includes(socket.player)){
+        alreadyInGame = true;
+        console.log(socket.player['username'] + " already has a Game!");
+
+        socket.emit('alreadyJoined', {
+          gameId: gameCollection.gameList[i]['gameObject']['id']
+        });
+
+      }
+
+    }
+
+    if (alreadyInGame == false){
+    	buildGame(socket, true);
+    }
+  	
+
+
 
 
   });
