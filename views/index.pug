@@ -11,7 +11,7 @@ block content
     .gameContainer
       //p #{riddles}
       p#demo
-      //p#answer
+      p#answer
     |     
     ul.pages
       li.chat.page
@@ -83,20 +83,18 @@ block content
     |   
     script(type='text/javascript').
       var gameState = 0
-      //var testlist = ["why","help","swag"];
-      //var testlist = each val in riddles
-      //var answertest = #{answer}
+      var answertest = JSON.parse('!{JSON.stringify(answer)}');
       var rounds = 3;
       function basicGameplay(){
       var testlist = JSON.parse('!{JSON.stringify(riddles)}');
       //console.log(testlist);
 
       var move = testlist[Math.floor(Math.random()*testlist.length)];
-      //var ans = answertest[Math.floor(Math.random()*answertest.length)];
+      var ans = answertest[Math.floor(Math.random()*answertest.length)];
       //if(rounds != 0)
       // {
       document.getElementById("demo").innerHTML = move;
-      //document.getElementById("answer").innerHTML = ans;
+      document.getElementById("answer").innerHTML = ans;
       //    rounds -= 1;
       // }
       // gameState = 1;

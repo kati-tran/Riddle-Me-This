@@ -20,12 +20,12 @@ app.set('view engine', 'pug');
 // Routing
 app.use(express.static(__dirname));
 
-
 app.get('/', async function(req, res, next){
 	const result = await getResults(1);
 	console.log(result);
 	res.render('index', result);
 });
+
 app.post('/', function(req, res){
 	res.redirect('/lobby')
 });
@@ -50,9 +50,20 @@ var gameCollection =  new function() {
 
 };
 
+async function scraper(){
+	try{
+	  const result = await getResults(1);
+	  console.log(result);
+	}
+	catch(error){
+	  	console.log("Error in Scraper")
+	}
+}
+
 ///add parameter for true or false when custom game or random game. 
 function buildGame(socket, prival) {
-
+ 
+ scraper();
  var gameObject = {};
  gameObject.id = (Math.random()+1).toString(36).slice(2, 18);
  gameObject.playerList = [socket.player]; // adding playerobjects
