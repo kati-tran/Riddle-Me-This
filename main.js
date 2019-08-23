@@ -413,5 +413,17 @@ socket.on('gameDestroyed', function (data) {
   log(data.lastPlayer + ' destroyed game: ' + data.gameId);
 
 });
+socket.on('fullGame', function(){ 
+  log("Sorry this game is full!");
+
+});
+
+socket.on('nonExistent', function (){ 
+  log("Sorry the game you searched for does not exist!");
+
+});
+
+
+
 
 });

@@ -331,11 +331,13 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on('joinExGame', function(exgameid){
-  	console.log(socket.player['username'] + " wants to join a game");
+  	//console.log(socket.player['username'] + " wants to join a game");
 
     console.log("player inputted game code: " + exgameid);
 
     var alreadyInGame = false;
+    var matchedGameID = false;
+    var fullGame = false;
     if (gameCollection.totalGameCount == 0){
     	socket.emit('noneExist');
     }
@@ -345,6 +347,7 @@ io.sockets.on('connection', function (socket) {
 
 	    for(var i = 0; i < gameCollection.totalGameCount; i++){
 	      game = gameCollection.gameList[i]['gameObject'];
+	      console.log(game.id);
 	      if (game['playerList'].includes(socket.player)){
 	        alreadyInGame = true;
 	        console.log(socket.player['username'] + " already has a Game!");
@@ -354,17 +357,53 @@ io.sockets.on('connection', function (socket) {
 	        });
 
 	      }
-
 	    }
 	}
-	/*
-    if (alreadyInGame == false){
+	if (alreadyInGame == false)
+	{
+	    for (var i = 0; i < gameCollection.totalGameCount; i++){
+	    	exgame = exgameid;
+	    	game = gameCollection.gameList[i]['gameObject'];
+	      	if (game.id == exgameid)
+	      	{
+	      		matchedGameID = true;
+	      		//take code from gameseeker and push player into it. 
+	      		if (game['numPlayers'] < 3) // change MAX number of players in a room here
+			    {
+			      gameId = game['id'];
+			      console.log(gameId);
+			      player = socket.player;
 
+			      socket.emit('addroom', {room: gameId}); // add player to randomly picked room
 
-      gameSeeker(socket);
-      
+			      socket.emit('joinSuccess', {gameId: game['id'] }); // joinSuccess triggers game html
+			      game['playerList'].push(player);
+			      game['numPlayers']++;
+
+			      // for deleting the player later on, need its index in player list
+			      socket.indx = game['numPlayers'] - 1;
+
+			      console.log("User {" + socket.id + ", " + player['username'] + "} has been added to: " + gameId);
+			      console.log(game['playerList']);
+				}
+				else
+				{
+					var fullGame = true;
+				}
+			}
+		}
+	}
+
+			    
+
+	
+    if (matchedGameID == false && alreadyInGame == false){
+      socket.emit('nonExistent');
     }
-    */
+    
+    if (fullGame == true && alreadyInGame == false){
+    	socket.emit('fullGame');
+    }
 
 
   });
