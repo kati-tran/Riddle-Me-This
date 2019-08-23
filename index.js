@@ -164,28 +164,30 @@ function gameSeeker (socket) {
     game = gameCollection.gameList[rndPick]['gameObject'];
     gameId = game['id'];
     player = socket.player
+    if (game.prival == false){
 
-    if (game['numPlayers'] < 3) // change MAX number of players in a room here
-    {
-      socket.emit('addroom', {room: gameId}); // add player to randomly picked room
+	    if (game['numPlayers'] < 3) // change MAX number of players in a room here
+	    {
+	      socket.emit('addroom', {room: gameId}); // add player to randomly picked room
 
-      socket.emit('joinSuccess', {gameId: game['id'] }); // joinSuccess triggers game html
-      game['playerList'].push(player);
-      game['numPlayers']++;
+	      socket.emit('joinSuccess', {gameId: game['id'] }); // joinSuccess triggers game html
+	      game['playerList'].push(player);
+	      game['numPlayers']++;
 
-      // for deleting the player later on, need its index in player list
-      socket.indx = game['numPlayers'] - 1;
+	      // for deleting the player later on, need its index in player list
+	      socket.indx = game['numPlayers'] - 1;
 
-      console.log("User {" + socket.id + ", " + player['username'] + "} has been added to: " + gameId);
-      console.log(game['playerList']);
-    
+	      console.log("User {" + socket.id + ", " + player['username'] + "} has been added to: " + gameId);
+	      console.log(game['playerList']);
+	    
 
-    }
+	    }
 
-    else {
+	    else {
 
-      gameSeeker(socket);
-    }
+	      gameSeeker(socket);
+	    }
+	}
   }
 }
 
@@ -304,7 +306,7 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('joinGame', function (){
     console.log(socket.username + " wants to join a game");
-
+    console.log('lmao what a dumbass');
     var alreadyInGame = false;
 
     for(var i = 0; i < gameCollection.totalGameCount; i++){
