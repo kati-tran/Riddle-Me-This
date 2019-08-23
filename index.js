@@ -22,7 +22,7 @@ app.use(express.static(__dirname));
 
 app.get('/', async function(req, res, next){
 	const result = await getResults(1);
-	console.log(result);
+	console.log("scrapedRiddles");
 	res.render('index', result);
 });
 
@@ -162,42 +162,84 @@ function killGame(socket) {
 // finds a game for the player to join
 function gameSeeker (socket) {
   ++loopLimit;
+  //var gameCountCheck = false;
   if (( gameCollection.totalGameCount == 0) || (loopLimit >= 20)) {
 
     buildGame(socket, false);
     loopLimit = 0;
+    //gameCountCheck = true;
 
-  } 
+
+  }
 
   else {
+  	var privateval = true;//checks if all the games in the list are private or nah. 
+  	for(var i = 0; i < gameCollection.totalGameCount; i++){
+	      game = gameCollection.gameList[i]['gameObject'];
+	      if (game.prival == false){
+	      	if (game['numPlayers'] < 3){ // if the room doesnt have the right size it just moves on to the next one. 
+	      		 socket.emit('addroom', {room: gameId}); // add player to randomly picked room
+
+	      		socket.emit('joinSuccess', {gameId: game['id'] }); // joinSuccess triggers game html
+	      		game['playerList'].push(player);
+	      		game['numPlayers']++;
+
+	      // for deleting the player later on, need its index in player list
+	      		socket.indx = game['numPlayers'] - 1;
+
+	      		console.log("User {" + socket.id + ", " + player['username'] + "} has been added to: " + gameId);
+	      		console.log(game['playerList']);
+	      		privateval = false;
+	      		break;
+	    
+	      	}
+	      	else{
+	      		continue;
+	      	}
+
+
+	      }
+	}
+	if (privateval == true)
+		  {
+		  	socket.emit('createdNewPub');
+		  	buildGame(socket, false);
+		  }
+
+
+	/*
     var rndPick = Math.floor(Math.random() * gameCollection.totalGameCount);
 
     game = gameCollection.gameList[rndPick]['gameObject'];
     gameId = game['id'];
     player = socket.player
 
-    if (game['numPlayers'] < 3) // change MAX number of players in a room here
-    {
-      socket.emit('addroom', {room: gameId}); // add player to randomly picked room
+	    if (game['numPlayers'] < 3) // change MAX number of players in a room here
+	    {
+	      socket.emit('addroom', {room: gameId}); // add player to randomly picked room
 
-      socket.emit('joinSuccess', {gameId: game['id'] }); // joinSuccess triggers game html
-      game['playerList'].push(player);
-      game['numPlayers']++;
+	      socket.emit('joinSuccess', {gameId: game['id'] }); // joinSuccess triggers game html
+	      game['playerList'].push(player);
+	      game['numPlayers']++;
 
-      // for deleting the player later on, need its index in player list
-      socket.indx = game['numPlayers'] - 1;
+	      // for deleting the player later on, need its index in player list
+	      socket.indx = game['numPlayers'] - 1;
 
-      console.log("User {" + socket.id + ", " + player['username'] + "} has been added to: " + gameId);
-      console.log(game['playerList']);
-    
+	      console.log("User {" + socket.id + ", " + player['username'] + "} has been added to: " + gameId);
+	      console.log(game['playerList']);
+	    
 
-    }
+	    }
 
-    else {
+	    else {
 
-      gameSeeker(socket);
-    }
+	      gameSeeker(socket);
+	    }
+	*/
+	
+	
   }
+  
 }
 
 
@@ -315,7 +357,7 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('joinGame', function (){
     console.log(socket.username + " wants to join a game");
-
+    console.log('lmao what a dumbass');
     var alreadyInGame = false;
 
     for(var i = 0; i < gameCollection.totalGameCount; i++){
@@ -341,10 +383,14 @@ io.sockets.on('connection', function (socket) {
 
   });
 
-  socket.on('joinExGame', function(){
-  	console.log(socket.username + " wants to join a game");
+  socket.on('joinExGame', function(exgameid){
+  	//console.log(socket.player['username'] + " wants to join a game");
+
+    console.log("player inputted game code: " + exgameid);
 
     var alreadyInGame = false;
+    var matchedGameID = false;
+    var fullGame = false;
     if (gameCollection.totalGameCount == 0){
     	socket.emit('noneExist');
     }
@@ -354,6 +400,7 @@ io.sockets.on('connection', function (socket) {
 
 	    for(var i = 0; i < gameCollection.totalGameCount; i++){
 	      game = gameCollection.gameList[i]['gameObject'];
+	      console.log(game.id);
 	      if (game['playerList'].includes(socket.player)){
 	        alreadyInGame = true;
 	        console.log(socket.player['username'] + " already has a Game!");
@@ -363,17 +410,53 @@ io.sockets.on('connection', function (socket) {
 	        });
 
 	      }
-
 	    }
 	}
-	/*
-    if (alreadyInGame == false){
+	if (alreadyInGame == false)
+	{
+	    for (var i = 0; i < gameCollection.totalGameCount; i++){
+	    	exgame = exgameid;
+	    	game = gameCollection.gameList[i]['gameObject'];
+	      	if (game.id == exgameid)
+	      	{
+	      		matchedGameID = true;
+	      		//take code from gameseeker and push player into it. 
+	      		if (game['numPlayers'] < 3) // change MAX number of players in a room here
+			    {
+			      gameId = game['id'];
+			      console.log(gameId);
+			      player = socket.player;
 
+			      socket.emit('addroom', {room: gameId}); // add player to randomly picked room
 
-      gameSeeker(socket);
-      
+			      socket.emit('joinSuccess', {gameId: game['id'] }); // joinSuccess triggers game html
+			      game['playerList'].push(player);
+			      game['numPlayers']++;
+
+			      // for deleting the player later on, need its index in player list
+			      socket.indx = game['numPlayers'] - 1;
+
+			      console.log("User {" + socket.id + ", " + player['username'] + "} has been added to: " + gameId);
+			      console.log(game['playerList']);
+				}
+				else
+				{
+					var fullGame = true;
+				}
+			}
+		}
+	}
+
+			    
+
+	
+    if (matchedGameID == false && alreadyInGame == false){
+      socket.emit('nonExistent');
     }
-    */
+    
+    if (fullGame == true && alreadyInGame == false){
+    	socket.emit('fullGame');
+    }
 
 
   });

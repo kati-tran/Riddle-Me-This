@@ -25,6 +25,8 @@ $(function() {
   var $joinExGame = $('.joinExGame');
   var $createPriGame = $('.createPriGame'); 
 
+  var $joinExGameInput = $('.joinExGameInput');
+
   // Prompt for setting a username
   var username;
   var connected = false;
@@ -73,6 +75,7 @@ $(function() {
       
     }
   }
+
 
   // Sends a chat message
   function sendMessage () {
@@ -223,7 +226,7 @@ $(function() {
   $window.keydown(function (event) {
     // Auto-focus the current input when a key is typed
     if (!(event.ctrlKey || event.metaKey || event.altKey)) {
-      $currentInput.focus();
+      //$currentInput.focus();
     }
     // When the client hits ENTER on their keyboard
     if (event.which === 13) {
@@ -260,7 +263,9 @@ $(function() {
   })
 
   $joinExGame.click(function (){
-    joinExGame();
+    exgameid = cleanInput($joinExGameInput.val().trim());
+    console.log(exgameid);
+    joinExGame(exgameid);
   })
 
 
@@ -353,9 +358,9 @@ function joinGame(){
 };
 
 //join created existing game private ~ 8/20/19
-function joinExGame(){
+function joinExGame(exgameid){
 
-  socket.emit('joinExGame');
+  socket.emit('joinExGame', exgameid);
   //console.log('peepeepoopoo');
 }
 
@@ -408,5 +413,22 @@ socket.on('gameDestroyed', function (data) {
   log(data.lastPlayer + ' destroyed game: ' + data.gameId);
 
 });
+socket.on('fullGame', function(){ 
+  log("Sorry this game is full!");
+
+});
+
+socket.on('nonExistent', function (){ 
+  log("Sorry the game you searched for does not exist!");
+
+});
+
+socket.on('createdNewPub', function (){ 
+  log("New game created because none were able to be joined.");
+
+});
+
+
+
 
 });
