@@ -151,20 +151,57 @@ function killGame(socket) {
 // finds a game for the player to join
 function gameSeeker (socket) {
   ++loopLimit;
+  //var gameCountCheck = false;
   if (( gameCollection.totalGameCount == 0) || (loopLimit >= 20)) {
 
     buildGame(socket, false);
     loopLimit = 0;
+    //gameCountCheck = true;
 
-  } 
+
+  }
 
   else {
+  	var privateval = true;//checks if all the games in the list are private or nah. 
+  	for(var i = 0; i < gameCollection.totalGameCount; i++){
+	      game = gameCollection.gameList[i]['gameObject'];
+	      if (game.prival == false){
+	      	if (game['numPlayers'] < 3){ // if the room doesnt have the right size it just moves on to the next one. 
+	      		 socket.emit('addroom', {room: gameId}); // add player to randomly picked room
+
+	      		socket.emit('joinSuccess', {gameId: game['id'] }); // joinSuccess triggers game html
+	      		game['playerList'].push(player);
+	      		game['numPlayers']++;
+
+	      // for deleting the player later on, need its index in player list
+	      		socket.indx = game['numPlayers'] - 1;
+
+	      		console.log("User {" + socket.id + ", " + player['username'] + "} has been added to: " + gameId);
+	      		console.log(game['playerList']);
+	      		privateval = false;
+	      		break;
+	    
+	      	}
+	      	else{
+	      		continue;
+	      	}
+
+
+	      }
+	}
+	if (privateval == true)
+		  {
+		  	socket.emit('createdNewPub');
+		  	buildGame(socket, false);
+		  }
+
+
+	/*
     var rndPick = Math.floor(Math.random() * gameCollection.totalGameCount);
 
     game = gameCollection.gameList[rndPick]['gameObject'];
     gameId = game['id'];
     player = socket.player
-    if (game.prival == false){
 
 	    if (game['numPlayers'] < 3) // change MAX number of players in a room here
 	    {
@@ -187,8 +224,11 @@ function gameSeeker (socket) {
 
 	      gameSeeker(socket);
 	    }
-	}
+	*/
+	
+	
   }
+  
 }
 
 

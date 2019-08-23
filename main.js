@@ -423,6 +423,11 @@ socket.on('nonExistent', function (){
 
 });
 
+socket.on('createdNewPub', function (){ 
+  log("New game created because none were able to be joined.");
+
+});
+
 
 
 
