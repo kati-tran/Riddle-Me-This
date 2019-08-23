@@ -346,7 +346,7 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('joinGame', function (){
     console.log(socket.username + " wants to join a game");
-    console.log('lmao what a dumbass');
+    
     var alreadyInGame = false;
 
     for(var i = 0; i < gameCollection.totalGameCount; i++){
