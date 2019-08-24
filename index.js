@@ -193,7 +193,7 @@ function gameSeeker (socket) {
 	      // for deleting the player later on, need its index in player list
 	      		socket.indx = game['numPlayers'] - 1;
 
-	      		console.log("User {" + socket.id + ", " + player['username'] + "} has been added to: " + gameId);
+	      		console.log("User {" + socket.id + ", " + player['username'] + "} has been added to: " + game.id);
 	      		console.log(game['playerList']);
 	      		privateval = false;
 	      		break;
