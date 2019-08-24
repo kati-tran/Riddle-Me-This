@@ -186,6 +186,7 @@ function gameSeeker (socket) {
 	      	if (game['numPlayers'] < 3){ // if the room doesnt have the right size it just moves on to the next one. 
 	      		socket.emit('addroom', {room: game.id}); // add player to specific room. 
 	      		socket.emit('joinSuccess', {gameId: game['id'] }); // joinSuccess triggers game html
+	      		var player = socket.player;
 	      		game['playerList'].push(player);
 	      		game['numPlayers']++;
 
