@@ -167,13 +167,14 @@ function killGame(socket) {
 
 // finds a game for the player to join
 function gameSeeker (socket) {
-  ++loopLimit;
+  //++loopLimit;
   //var gameCountCheck = false;
-  if (( gameCollection.totalGameCount == 0) || (loopLimit >= 20)) {
+  if (( gameCollection.totalGameCount == 0) ) {
 
     buildGame(socket, false);
-    loopLimit = 0;
+    //loopLimit = 0;
     //gameCountCheck = true;
+    //break;
 
 
   }
@@ -205,12 +206,14 @@ function gameSeeker (socket) {
 
 
 	      }
-    if (privateval == true)
+    
+	}
+  if (privateval == true)
       {
+        console.log('where is this bug');
         socket.emit('createdNewPub');
         buildGame(socket, false);
       }
-	}
 	
 
 	/*
