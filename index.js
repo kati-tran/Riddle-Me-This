@@ -186,8 +186,7 @@ function gameSeeker (socket) {
 	      game = gameCollection.gameList[i]['gameObject'];
 	      if (game.prival == false){
 	      	if (game['numPlayers'] < 3){ // if the room doesnt have the right size it just moves on to the next one. 
-	      		 socket.emit('addroom', {room: gameId}); // add player to randomly picked room
-
+	      		socket.emit('addroom', {room: game.id}); // add player to specific room. 
 	      		socket.emit('joinSuccess', {gameId: game['id'] }); // joinSuccess triggers game html
 	      		game['playerList'].push(player);
 	      		game['numPlayers']++;
