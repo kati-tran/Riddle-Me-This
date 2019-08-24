@@ -21,9 +21,7 @@ app.set('view engine', 'pug');
 app.use(express.static(__dirname));
 
 app.get('/', function(req, res){
-	//const result = await allRiddles({},3);
-	//console.log(result);
-	res.render('index'); //{result: result}
+	res.render('index')
 });
 
 app.post('/', function(req, res){
