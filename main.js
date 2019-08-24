@@ -47,6 +47,46 @@ $(function() {
       }
   });
 
+  socket.on('riddles', function (riddict){
+      result = riddict
+
+      function basicGameplay(){
+        var answertest = JSON.parse(JSON.stringify(Object.values(result)));
+        var testlist = JSON.parse(JSON.stringify(Object.keys(result)));
+        //console.log(testlist)
+        //console.log(testlist);
+
+        var move = testlist[Math.floor(Math.random()*testlist.length)];
+        var ans = answertest[Math.floor(Math.random()*answertest.length)];
+        //if(rounds != 0)
+        // {
+        document.getElementById("demo").innerHTML = move;
+        document.getElementById("answer").innerHTML = ans;
+        //    rounds -= 1;
+        // }
+        // gameState = 1;
+        // for(var i in players){
+        //   var playerWin = playerWinCheck(players[i].message);
+        //   if(playerWin){
+        //     players[i].score += 1;
+        //   }
+        //}
+        }
+      function playerWinCheck(message){
+      var playerWins = false;
+      if(message == move){
+      playerWins = true;
+      }
+      return playerWins;
+      }
+      basicGameplay();
+      setInterval(function(){
+      basicGameplay();},3000);
+
+      //console.log("Result is:" + $('#result'))
+      
+  });
+
   function addParticipantsMessage (data) {
     var message = '';
     if (data.numUsers === 1) {

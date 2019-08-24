@@ -6,7 +6,7 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 5000;
 var loopLimit = 0;
-const getResults = require("./riddleScraper")
+const allRiddles = require("./riddleScraper")
 //var router = express.Router()
 
 
@@ -20,10 +20,10 @@ app.set('view engine', 'pug');
 // Routing
 app.use(express.static(__dirname));
 
-app.get('/', async function(req, res, next){
-	const result = await getResults(1);
-	console.log("scrapedRiddles");
-	res.render('index', result);
+app.get('/', function(req, res){
+	//const result = await allRiddles({},3);
+	//console.log(result);
+	res.render('index'); //{result: result}
 });
 
 app.post('/', function(req, res){
@@ -50,10 +50,11 @@ var gameCollection =  new function() {
 
 };
 
-async function scraper(){
+async function scraper(ridict, rounds){
 	try{
-	  const result = await getResults(1);
-	  console.log(result);
+	  const result = await allRiddles(ridict,rounds);
+	  showRiddles(result);
+	  //console.log(result);
 	}
 	catch(error){
 	  	console.log("Error in Scraper")
@@ -63,7 +64,9 @@ async function scraper(){
 ///add parameter for true or false when custom game or random game. 
 function buildGame(socket, prival) {
  
- scraper();
+ var gameRiddleDict = {}
+ scraper(gameRiddleDict,3); //Empty dict for game-specific maybe? And then rounds
+ //console.log(gameRiddleDict)
  var gameObject = {};
  gameObject.id = (Math.random()+1).toString(36).slice(2, 18);
  gameObject.playerList = [socket.player]; // adding playerobjects
@@ -77,18 +80,23 @@ function buildGame(socket, prival) {
                                         //always one when building a game, so we need inx zero
 
 
+
  console.log("Game Created by "+ socket.username + " w/ " + gameObject.id);
  io.emit('gameCreated', {
   username: socket.username,
   gameId: gameObject.id
 });
 
+  
   socket.emit('joinSuccess', {gameId: gameObject.id }); // joinSuccess triggers game html
   socket.emit('addroom', {room:gameObject.id});
   console.log('There are now ' + gameObject.numPlayers + ' player(s) in game ' + gameObject.id);
   console.log(gameObject.playerList);
 
+}
 
+function showRiddles(riddict) {
+    io.sockets.emit('riddles', riddict);
 }
 
 function buildPlayer(socket, username) {

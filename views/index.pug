@@ -10,6 +10,8 @@ block content
     |     
     .gameContainer
       //p #{riddles}
+      #riddict
+        //p#rid
       p#demo
       p#answer
     |     
@@ -84,39 +86,7 @@ block content
     script(src='/main.js')
     |   
     script(type='text/javascript').
-      var gameState = 0
-      var answertest = JSON.parse('!{JSON.stringify(answer)}');
-      var rounds = 3;
-      function basicGameplay(){
-      var testlist = JSON.parse('!{JSON.stringify(riddles)}');
-      //console.log(testlist);
 
-      var move = testlist[Math.floor(Math.random()*testlist.length)];
-      var ans = answertest[Math.floor(Math.random()*answertest.length)];
-      //if(rounds != 0)
-      // {
-      document.getElementById("demo").innerHTML = move;
-      document.getElementById("answer").innerHTML = ans;
-      //    rounds -= 1;
-      // }
-      // gameState = 1;
-      // for(var i in players){
-      //   var playerWin = playerWinCheck(players[i].message);
-      //   if(playerWin){
-      //     players[i].score += 1;
-      //   }
-      //}
-      }
-      function playerWinCheck(message){
-      var playerWins = false;
-      if(message == move){
-      playerWins = true;
-      }
-      return playerWins;
-      }
-      basicGameplay();
-      setInterval(function(){
-      basicGameplay();},3000);
     |
     script.
       var acc = document.getElementsByClassName("accordion");
