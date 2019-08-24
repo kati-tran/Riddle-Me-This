@@ -205,13 +205,13 @@ function gameSeeker (socket) {
 
 
 	      }
+    if (privateval == true)
+      {
+        socket.emit('createdNewPub');
+        buildGame(socket, false);
+      }
 	}
-	if (privateval == true)
-		  {
-		  	socket.emit('createdNewPub');
-		  	buildGame(socket, false);
-		  }
-
+	
 
 	/*
     var rndPick = Math.floor(Math.random() * gameCollection.totalGameCount);
