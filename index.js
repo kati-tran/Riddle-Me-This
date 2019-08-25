@@ -67,15 +67,13 @@ function buildGame(socket, prival) {
  //console.log(gameRiddleDict)
  var gameObject = {};
  gameObject.id = (Math.random()+1).toString(36).slice(2, 18);
- gameObject.playerList = [socket.player]; // adding playerobjects
+ gameObject.playerSet = new Set([socket.player]); // adding playerobjects
  gameObject.numPlayers = 1;
  gameObject.prival = prival;
  console.log(gameObject.prival);
  gameCollection.totalGameCount++;
  gameCollection.gameList.push({gameObject});
 
- socket.indx = gameObject.numPlayers - 1 //needed to delete user from playerlist array, 
-                                        //always one when building a game, so we need inx zero
 
 
 
@@ -89,7 +87,7 @@ function buildGame(socket, prival) {
   socket.emit('joinSuccess', {gameId: gameObject.id }); // joinSuccess triggers game html
   socket.emit('addroom', {room:gameObject.id});
   console.log('There are now ' + gameObject.numPlayers + ' player(s) in game ' + gameObject.id);
-  console.log(gameObject.playerList);
+  console.log(gameObject.playerSet);
 
 }
 
@@ -117,7 +115,7 @@ function killGame(socket) {
     gameId = game['id'];
     player = socket.player;
 
-    if (game['playerList'].includes(player)) // if the player is in the game
+    if (game['playerSet'].has(player)) // if the player is in the game
     {
 
       if (game['numPlayers']==1) // if the player is the last one in the game
@@ -146,11 +144,11 @@ function killGame(socket) {
       socket.emit('addroom', {room: 'lobby'});
 
       //update game info
+      game['playerSet'].delete(player);
       --game['numPlayers'];
-      game['playerList'].splice(socket.indx, 1);
 
       console.log("Users remaining:");
-      console.log(game['playerList']);
+      console.log(game['playerSet']);
 
 
 
@@ -188,14 +186,12 @@ function gameSeeker (socket) {
 	      		socket.emit('addroom', {room: game.id}); // add player to specific room. 
 	      		socket.emit('joinSuccess', {gameId: game['id'] }); // joinSuccess triggers game html
 	      		var player = socket.player;
-	      		game['playerList'].push(player);
+	      		game['playerSet'].add(player);
 	      		game['numPlayers']++;
 
-	      // for deleting the player later on, need its index in player list
-	      		socket.indx = game['numPlayers'] - 1;
 
 	      		console.log("User {" + socket.id + ", " + player['username'] + "} has been added to: " + game.id);
-	      		console.log(game['playerList']);
+	      		console.log(game['playerSet']);
 	      		privateval = false;
 	      		break;
 	    
@@ -371,7 +367,7 @@ io.sockets.on('connection', function (socket) {
 
     for(var i = 0; i < gameCollection.totalGameCount; i++){
       game = gameCollection.gameList[i]['gameObject'];
-      if (game['playerList'].includes(socket.player)){
+      if (game['playerSet'].has(socket.player)){
         alreadyInGame = true;
         console.log(socket.player['username'] + " already has a Game!");
 
@@ -410,7 +406,7 @@ io.sockets.on('connection', function (socket) {
 	    for(var i = 0; i < gameCollection.totalGameCount; i++){
 	      game = gameCollection.gameList[i]['gameObject'];
 	      console.log(game.id);
-	      if (game['playerList'].includes(socket.player)){
+	      if (game['playerSet'].has(socket.player)){
 	        alreadyInGame = true;
 	        console.log(socket.player['username'] + " already has a Game!");
 
@@ -439,14 +435,11 @@ io.sockets.on('connection', function (socket) {
 			      socket.emit('addroom', {room: gameId}); // add player to randomly picked room
 
 			      socket.emit('joinSuccess', {gameId: game['id'] }); // joinSuccess triggers game html
-			      game['playerList'].push(player);
+			      game['playerSet'].add(player);
 			      game['numPlayers']++;
 
-			      // for deleting the player later on, need its index in player list
-			      socket.indx = game['numPlayers'] - 1;
-
 			      console.log("User {" + socket.id + ", " + player['username'] + "} has been added to: " + gameId);
-			      console.log(game['playerList']);
+			      console.log(game['playerSet']);
 				}
 				else
 				{
@@ -475,7 +468,7 @@ io.sockets.on('connection', function (socket) {
   	var alreadyInGame = false;
   	for(var i = 0; i < gameCollection.totalGameCount; i++){
       game = gameCollection.gameList[i]['gameObject'];
-      if (game['playerList'].includes(socket.player)){
+      if (game['playerSet'].has(socket.player)){
         alreadyInGame = true;
         console.log(socket.player['username'] + " already has a Game!");
 
