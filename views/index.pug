@@ -19,22 +19,47 @@ block content
           h1
             a(href='/')  Riddle Me This!
         .gameButtons
-          button.button1.joinGame(placeholder='Join Game') Join Game
+          button.gameAction.joinGame(placeholder='Join Game') Public Game
           |          
           br
           |
-          button.joinExGame(placeholder='Join Existing Game') Join Existing Game
-          //CHANGE THIS
+          button.gameAction.joinExGame(placeholder='Join Existing Game') Private Game
           |
-          input.joinExGameInput(type='text', name='joinExGameInput', placeholder=' ☺', required='')
+          input.joinExGameInput(type='text', name='joinExGameInput', placeholder=' ☺ ', required='')
           |          
           br
           |
-          button.createPriGame(placeholder='Create New Game') Create New Game
-          //CHANGE THIS
-          |          
-          br             
-          button.leaveGame(placeholder='Leave Game') Exit Game
+          button.gameAction.createPriGame(placeholder='Create New Game') Create Private Game
+          |
+          #roundTimeContainer
+            #minContainer
+              label.countTimeLabel.small-text  min 
+                #input_div
+                  input.incdec.top(type='button', value='^', onclick='plus(1, true)')
+                  |     
+                  br
+                  |   
+                  input#countMin.countTime(type='text', size='25', value='1', readonly='readonly')
+                  |   
+                  br
+                  |     
+                  input.incdec.bottom(type='button', value='v', onclick='minus(1, true)')
+            #secContainer
+              label.countTimeLabel.small-text sec
+                #input_div
+                  input.incdec.top(type='button', value='^', onclick='plus(30, false)')
+                  |     
+                  br
+                  |   
+                  input#countSec.countTime(type='text', size='25', value='30', readonly='readonly')
+                  |   
+                  br
+                  |     
+                  input.incdec.bottom(type='button', value='v', onclick='minus(30, false)')
+          |
+          br
+          |             
+          button.gameAction.leaveGame(placeholder='Leave Game') Back to Lobby
           |          
           br
         |         
@@ -53,13 +78,13 @@ block content
         #avatar_container
           #avatar_select
           |                 
-          label.small-text  choose your fighter
+          label.label1.small-text  choose your fighter
         #usernamecontainer.form                  
             input.usernameInput(type='text', name='username', placeholder=' ☺', required='')
             |
             input#go.button1(type='submit', value='Go!', onkeypress='return event.keyCode != 13')
             |                       
-            label.small-text(for='username', style='top:50%')  nickname
+            label.label1.small-text(for='username', style='top:50%')  nickname
         #info_container
           button.accordion(id='collapse in', data-parent='#accordion') Updates
           |             
@@ -101,3 +126,60 @@ block content
           } 
         });
       }
+    |
+    script.
+      function plus(num, minute){
+        let max; let min;
+        let elem; let count; let string;
+        
+        if (minute){
+         max = 5;
+         min = 1;
+         elem = document.getElementById("countMin");
+         count = ~~elem.value;
+        }
+        
+        else {
+          max = 30;
+          min = 0;
+          elem = document.getElementById("countSec");
+          count = ~~elem.value;
+        }
+        
+        console.log(num, max, num < max);
+        if (elem.value < max){
+          count += num;
+          elem.value = count;
+        }
+      }
+
+
+
+      function minus(num, minute){
+        let max; let min;
+        let elem; let count; let string;
+        
+        if (minute){
+         max = 5;
+         min = 1;
+         elem = document.getElementById("countMin");
+         count = ~~elem.value;
+        }
+        
+        else {
+          max = 30;
+          min = 0;
+          elem = document.getElementById("countSec");
+          count = ~~elem.value;
+        }
+        
+        var countSec = document.getElementById("countSec");
+        var countMin = document.getElementById("countMin");
+        
+        if ((elem.value > min && countMin.value!=0) || (countMin.value > 0 && ~~countSec.value==30) ) {
+          count -= num;
+          elem.value = count;
+        }  
+      }
+      
+

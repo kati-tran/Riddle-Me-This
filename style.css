@@ -13,11 +13,20 @@ html {
 
   position: absolute;
   margin-top: 5%;
-  margin-left: 1%;
+  margin-left: 3%;
   float:left;
+  display: inline-block;
+  width:auto;
+  /*background-color: yellow;*/
 }
 
-
+.privateGameInputContainer
+{
+  display: inline-block;
+  background-color: red;
+  height:auto;
+  width:300px;
+}
 
 
 html, input {

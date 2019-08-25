@@ -36,7 +36,7 @@ h1 a:hover, h2 a {
     mix-blend-mode: difference;
 }
 
-label
+.label1
 {
     display: block;
     white-space: nowrap;
@@ -60,7 +60,6 @@ label
 	font-family: 'Roboto', sans-serif;
 	color: rgba(0, 0, 0, 0.5); /* rgba for text opacity, doesnt affect whole block*/
   width:auto;
-  position:absolute;
 }
 
 
@@ -79,9 +78,10 @@ label
 
 }
 
-.joinGame, .leaveGame 
+.gameAction
 {
   border:none;
+  margin-bottom: 25px;
   background-color: rgba(202, 205, 219, .8);
   border-bottom:9px solid white;
   border-radius:30px;
@@ -92,6 +92,11 @@ label
   font-family: 'Roboto';
   font-weight:500;
 
+}
+
+.joinExGameInput
+{
+  margin-left:15px;
 }
 
 .button1:hover, button:hover
@@ -113,11 +118,101 @@ input[type=text]
   height:25px;
 }
 
+
 body {
   animation: 7000ms ease-in-out infinite color-change;
   overflow: hidden;
 }
 
+
+
+
+
+
+/*rounds counter*/
+
+#minContainer
+{
+  float:left;
+  height: inherit;
+}
+#secContainer
+{
+  float:right;
+  height: inherit;
+}
+
+#roundTimeContainer
+{
+  float:right;
+  width:200px;
+  height:70px;
+
+}
+
+.countTimeLabel {
+  margin-left:20px;
+  margin-bottom: 30px;
+  height: inherit;
+}
+#input_div {
+  height:auto;
+  width:50px;
+  display:inline-block;
+  
+}
+.countTime
+{
+  font-size:14px;
+  background-color: rgba(202, 205, 219, .9);
+  border:none;
+  padding: 2px;
+  width:100%;
+  border-radius: 20px;
+  color:black;
+  font-family: 'Roboto', serif;
+  font-weight:500;
+  text-align:center;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+   box-sizing: border-box;
+  
+}
+
+
+.top {
+  background-color: white;
+  border:none;
+  border-radius:10px 10px 0px 0px;
+  width:100%;
+}
+
+.bottom
+{
+    background-color: white;
+    border:none;
+    border-radius:0px 0px 10px 10px;
+    width:100%;
+}
+
+.top:hover
+{
+    background-color:rgba(0,0,0, .1);
+}
+
+.bottom:hover
+{
+    background-color:rgba(0,0,0, .1);
+}
+
+.incdec
+{
+  color: rgba(0, 0, 0, 0.4);
+  background-color:rgba(0,0,0, 0);
+}
+
+
+/*end rounds counter*/
 
 
 @keyframes color-change {
