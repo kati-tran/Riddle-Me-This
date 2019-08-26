@@ -145,16 +145,18 @@ body {
 #roundTimeContainer
 {
   float:right;
-  width:200px;
+  width:auto;
   height:70px;
 
 }
 
 .countTimeLabel {
-  margin-left:20px;
-  margin-bottom: 30px;
+  display: inline-block;
+  margin: 25px 10px 0px 10px;
   height: inherit;
+  float: right;
 }
+
 #input_div {
   height:auto;
   width:50px;

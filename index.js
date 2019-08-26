@@ -23,13 +23,6 @@ app.use(express.static(__dirname));
 app.get('/', function(req, res){
 	res.render('index')
 });
-
-app.post('/', function(req, res){
-	res.redirect('/lobby')
-});
-app.get('/lobby', function(req, res, next){
-  res.render('lobby')
-});
 app.get('/terms_conditions', function(req, res){
   res.render('tos')
 });
@@ -279,8 +272,7 @@ io.sockets.on('connection', function (socket) {
     console.log('Current room is: ' + room);
     console.log('Current score is: ' + socket.score);
 
-
-    socket.broadcast.to(room).emit('new message', {
+    socket.to(room).emit('new message', {
       username: socket.player['username'],
       message: data,
       score: socket.score

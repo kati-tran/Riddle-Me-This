@@ -23,7 +23,9 @@ $(function() {
   var $joinGame = $('.joinGame'); 
   var $leaveGame = $('.leaveGame');
   var $joinExGame = $('.joinExGame');
-  var $createPriGame = $('.createPriGame'); 
+  var $createPriGame = $('.createPriGame');
+  var $roundMins = $('#countMin');
+  var $roundSecs = $('#countSec');
 
   var $joinExGameInput = $('.joinExGameInput');
 
@@ -304,7 +306,6 @@ $(function() {
 
   $joinExGame.click(function (){
     exgameid = cleanInput($joinExGameInput.val().trim());
-    console.log(exgameid);
     joinExGame(exgameid);
   })
 
@@ -315,8 +316,11 @@ $(function() {
   })
 
   //ADDED CREATEPRIGAME FUNCTIONALITY 8/21/19
-  $createPriGame.click(function(){ 
+  $createPriGame.click(function(){
+    roundMinutes = $roundMins.val();
+    roundSeconds = $roundSecs.val();
     createPriGame();
+
 
   })
 
