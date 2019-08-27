@@ -25,37 +25,30 @@ block content
           |
           button.gameAction.joinExGame(placeholder='Join Existing Game') Private Game
           |
-          input.joinExGameInput(type='text', name='joinExGameInput', placeholder=' ☺ ', required='')
+          input.input1.joinExGameInput(type='text', name='joinExGameInput', placeholder=' ☺ ', required='')
           |          
           br
           |
           button.gameAction.createPriGame(placeholder='Create New Game') Create Private Game
           |
           #roundTimeContainer
+            p.label2 round length
             #minContainer
-              p.countTimeLabel.small-text  min 
-                #input_div
-                  input.incdec.top(type='button', value='^', onclick='plus(1, true)')
-                  |     
-                  br
-                  |   
-                  input#countMin.countTime(type='text', size='25', value='1', readonly='readonly')
-                  |   
-                  br
-                  |     
-                  input.incdec.bottom(type='button', value='v', onclick='minus(1, true)')
+              input.incdec.top(type='button', value='+', onclick='plus(1, true)')
+              |  
+              input.incdec.bottom(type='button', value='-', onclick='minus(1, true)')
+              |
+              p.countTimeLabel.label2  min 
+              |
+              input#countMin.countTime(type='text', size='25', value='1', readonly='readonly') 
             #secContainer
-              p.countTimeLabel.small-text sec
+              p.countTimeLabel.label2 sec
                 #input_div
-                  input.incdec.top(type='button', value='^', onclick='plus(30, false)')
-                  |     
-                  br
+                  input.incdec.top(type='button', value='+', onclick='plus(30, false)')
                   |   
-                  input#countSec.countTime(type='text', size='25', value='30', readonly='readonly')
-                  |   
-                  br
-                  |     
-                  input.incdec.bottom(type='button', value='v', onclick='minus(30, false)')
+                  input.incdec.bottom(type='button', value='-', onclick='minus(30, false)')
+                  |
+                  input#countSec.countTime(type='text', size='25', value='30', readonly='readonly')    
           |
           br
           |             
@@ -80,7 +73,7 @@ block content
           |                 
           label.label1.small-text  choose your fighter
         #usernamecontainer.form                  
-            input.usernameInput(type='text', name='username', placeholder=' ☺', required='')
+            input.input1.usernameInput(type='text', name='username', placeholder=' ☺', required='')
             |
             input#go.button1(type='submit', value='Go!', onkeypress='return event.keyCode != 13')
             |                       
