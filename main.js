@@ -37,6 +37,7 @@ $(function() {
   var $currentInput = $usernameInput.focus();
 
   var userList = [];
+  var answer;
   var socket = io();
 
   socket.on('update', function (users){
@@ -59,11 +60,11 @@ $(function() {
         //console.log(testlist);
 
         var move = testlist[Math.floor(Math.random()*testlist.length)];
-        var ans = answertest[Math.floor(Math.random()*answertest.length)];
+        answer = answertest[Math.floor(Math.random()*answertest.length)];
         //if(rounds != 0)
         // {
         document.getElementById("demo").innerHTML = move;
-        document.getElementById("answer").innerHTML = ans;
+        document.getElementById("answer").innerHTML = answer;
         //    rounds -= 1;
         // }
         // gameState = 1;
@@ -74,13 +75,7 @@ $(function() {
         //   }
         //}
         }
-      function playerWinCheck(message){
-      var playerWins = false;
-      if(message == move){
-      playerWins = true;
-      }
-      return playerWins;
-      }
+
       basicGameplay();
       setInterval(function(){
       basicGameplay();},3000);
@@ -118,7 +113,13 @@ $(function() {
     }
   }
 
-
+  function playerWinCheck(msg){
+    var playerWins = false;
+    if(msg == answer){
+        playerWins = true;
+    }
+    return playerWins;
+  }
   // Sends a chat message
   function sendMessage () {
     var message = $inputMessage.val();
@@ -127,12 +128,31 @@ $(function() {
     // if there is a non-empty message and a socket connection
     if (message && connected) {
       $inputMessage.val('');
+      var playerwin = playerWinCheck(message);
       addChatMessage({
         username: username,
         message: message
       });
       // tell server to execute 'new message' and send along one parameter
       socket.emit('new message', message);
+      if(playerwin){
+        uscore = 50
+        socket.emit('update score',uscore)
+      }
+    }
+  }
+
+  function checkScore() {
+     var message = $inputMessage.val();
+    // Prevent markup from being injected into the message
+    message = cleanInput(message);
+    // if there is a non-empty message and a socket connection
+    if (message && connected) {
+      var playerwin = playerWinCheck(message);
+      if(playerwin){
+        uscore = 50
+        socket.emit('update score',uscore)
+      }
     }
   }
 
@@ -274,6 +294,7 @@ $(function() {
     if (event.which === 13) {
       if (username) {
         sendMessage();
+        checkScore();
         socket.emit('stop typing');
         typing = false;
       } else {

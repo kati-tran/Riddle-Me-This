@@ -267,10 +267,8 @@ io.sockets.on('connection', function (socket) {
     for(var key in socket.rooms) {
       room = key;
     }
-    socket.score += 1;
 
     console.log('Current room is: ' + room);
-    console.log('Current score is: ' + socket.score);
 
     socket.to(room).emit('new message', {
       username: socket.player['username'],
@@ -311,6 +309,11 @@ io.sockets.on('connection', function (socket) {
     });
     socket.emit('addroom', {room:'lobby'}); // when a user is added to rmt, they join the lobby
   });
+
+  socket.on('update score',function(uscore){
+  	socket.player['score'] += uscore;
+  	console.log("Updated score for " + socket.player['username'] + " is " + socket.player['score']);
+  })
 
   // when the client emits 'typing', we broadcast it to others
   socket.on('typing', function () {
