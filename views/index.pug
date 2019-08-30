@@ -1,10 +1,16 @@
 extends master.pug
 block head    
-    link(rel='stylesheet', href='style.css')
-    link(rel='stylesheet', href='static/index.css')       
+    link(rel='stylesheet', href='/style.css')
+    link(rel='stylesheet', href='/static/main.css')
+    link(rel='stylesheet', href='/static/index.css')       
     link(href='https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap', rel='stylesheet')
-    script(src='https://code.jquery.com/jquery-1.10.2.min.js')
-    |     
+    |
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
+    |         
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css')
+    |
+    script(src='https://code.jquery.com/jquery-1.10.2.min.js')  
+    | 
     script(src='/socket.io/socket.io.js')
     |     
     script(src='/main.js')
@@ -35,7 +41,7 @@ block head
         count = ~~elem.value;
 
         
-        if (check_id != null && (document.getElementById(check_id)).value==0)
+        if (check_id != null && (document.getElementById(check_id)).value==0 && count-inc_by == 0)
         {
           return;
         }
@@ -57,9 +63,7 @@ block content
     |     
     ul.pages
       li.chat.page
-        .stripe
-          h1
-            a.title(href='/')  Riddle Me This!
+        include header
         .gameButtons
           button.gameAction.joinGame(placeholder='Join Game') Public Game
           |          
@@ -73,39 +77,13 @@ block content
           |
           button.gameAction.createPriGame(placeholder='Create New Game') Create Private Game
           |
-          p.label2 Round Time
-          #roundTimeContainer
-            #minContainer
-              input.incdec.top(type='button', value='+', onclick='plus(1, "countMin", 5)')
-              |  
-              input.incdec.bottom(type='button', value='-', onclick='minus(1, "countMin", 0, "countSec")')
-              |
-              p.label2  min 
-              |
-              input#countMin.countTime(type='text', size='25', value='1', readonly='readonly') 
-            #secContainer
-              p.label2 sec
-                input.incdec.top(type='button', value='+', onclick='plus(30, "countSec", 30)')
-                |   
-                input.incdec.bottom(type='button', value='-', onclick='minus(30, "countSec", 0, "countMin")')
-                |
-                input#countSec.countTime(type='text', size='25', value='30', readonly='readonly')
-          |
-          p.label2 Rounds
-          #numRoundsContainer
-              input.incdec.top(type='button', value='+', onclick='plus(1, "countRound", 10)')
-              |   
-              input.incdec.bottom(type='button', value='-', onclick='minus(1, "countRound", 1, null)')
-              |
-              input#countRound.countTime(type='text', size='25', value='5', readonly='readonly')
-
           br
           |             
           button.gameAction.leaveGame(placeholder='Leave Game') Back to Lobby
           |          
           br
         |         
-        .chatContainer
+        .chatContainer#chatbox
           ul.messages
         |       
         input.inputMessage(placeholder='Type here...')
@@ -114,53 +92,54 @@ block content
         .usersList
           ul.Users
       li.login.page
-        .stripe
-          h1
-            a(href='/')  Riddle Me This!
-        #avatar_container
-          #avatar_select
-          |                 
-          label.label1.small-text  choose your fighter
-        #usernamecontainer.form                  
-            input.input1.usernameInput(type='text', name='username', placeholder=' ☺', required='')
+        include header
+        #mainpageContainer
+          #user_inputs
+            #avatar_select
+            |                 
+            p.label1  choose your fighter
+            #usernamecontainer                 
+                input.input1.usernameInput(type='text', name='username', placeholder=' ☺', required='')
+                |
+                input#go.button1(type='submit', value='Go!', onkeypress='return event.keyCode != 13')
+                |                       
+                p.label1  nickname
+          #info_container
+            button.accordion(id='collapse in', data-parent='#accordion') How to Play
+            |             
+            .panel(style='max-height:70px;')
+              p.small-text And I oop-
+            |             
+            button.accordion(data-parent='#accordion') Updates
             |
-            input#go.button1(type='submit', value='Go!', onkeypress='return event.keyCode != 13')
-            |                       
-            label.label1.small-text(for='username', style='top:50%')  nickname
-        #info_container
-          button.accordion(id='collapse in', data-parent='#accordion') Updates
-          |             
-          .panel
-            p And I oop-
-          |             
-          button.accordion(data-parent='#accordion') How to Play
-          |
-          .panel
-            p ????????????/
-          |             
-          button.accordion(data-parent='#accordion') About
-          |             
-          .panel
-            p Riddle Me This! is a sdjfsdf
-          |
-          script.
-            var acc = document.getElementsByClassName("accordion");
-            var i;
+            .panel
+              p.small-text ????????????/
+            |             
+            button.accordion(data-parent='#accordion') About
+            |             
+            .panel
+              p.small-text Riddle Me This! is ??????
+        |
+        include footer
+        |
+        script.
+          var acc = document.getElementsByClassName("accordion");
+          var i;
 
-            for (i = 0; i < acc.length; i++) {
-              acc[i].addEventListener("click", function() {
-                this.classList.toggle("active");
-                var panel = this.nextElementSibling;
-                if (panel.style.maxHeight)
-                {
-                  panel.style.maxHeight = null;
-                } 
+          for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+              this.classList.toggle("active");
+              var panel = this.nextElementSibling;
+              if (panel.style.maxHeight)
+              {
+                panel.style.maxHeight = null;
+              } 
 
-                else {
-                  panel.style.maxHeight = panel.scrollHeight + "px";
-                } 
-              });
-            }
+              else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+              } 
+            });
+          }
 
       
 

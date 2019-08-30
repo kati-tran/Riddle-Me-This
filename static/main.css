@@ -1,66 +1,76 @@
 /* <Control> + <F5> for hard refresh*/
 #footer {
-   position:fixed;
    bottom:0px;
    left:0px;
+   position: fixed;
    width:100%;
-   opacity:.3;
+   opacity: .5;
    text-align: center;
-   height:20px;
+   font-family: 'Roboto', 'Helvetica';
 }
 
 
 #footer p a
 {
   color:black;
+  text-decoration: none;
+  font-size:14px; 
 }
 
 #footer p a:hover
 {
   color:white;
-  text-decoration: none;
 }
 
-h1 a, h2 a {
-    color: #000000;
+.title {
+    color:black;
     font-family: 'Permanent Marker';
     padding-left: 15px;
-    mix-blend-mode: color-burn;
     opacity: .4;
+    font-size:36px;
+    text-decoration: none;
+    font-weight: 400;
 }
 
-h1 a:hover, h2 a {
+.title:hover {
     color: #7a95f5;
     font-family: 'Permanent Marker';
     text-decoration: none;
     mix-blend-mode: difference;
 }
-
 .label1
 {
-    display: block;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    width: 100%;
-    margin-top: 4px;
+  padding: 0;
+  margin:0;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 3px;
+  width: auto;
+  font-family:'Roboto', 'Helvetica', 'Arial';
+  font-weight: 600;
+  font-size: 14px;
+  color:black;
+  opacity: .5;
+
 }
+
+
 
 .stripe {
   font-family: "Permanent Marker";
-    background-color: #ddddf0;
+    background-color: white;
     margin-top: 0;
     padding: 20px 20px 20px 40px;
+    text-align: center;
     opacity: 0.6;
     width:100%;
 }
 
 .small-text
 {
-	font-family: 'Roboto', sans-serif;
-	color: rgba(0, 0, 0, 0.5); /* rgba for text opacity, doesnt affect whole block*/
-  font-weight: 600;
-  width:auto;
+  opacity: .7;
+  font-family: 'Roboto', 'Helvetica', 'Arial';
+
 }
 
 
@@ -75,7 +85,7 @@ h1 a:hover, h2 a {
   opacity:0.6;
   height:auto;
   width:auto;
-  font-family: 'Roboto';
+  font-family: 'Roboto', helvetica, arial;
   font-weight:500;
 
 }
@@ -83,22 +93,23 @@ h1 a:hover, h2 a {
 .gameAction
 {
   border:none;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
+  margin-top:10px;
+  margin-right: 10px;
   background-color: rgba(202, 205, 219, .8);
   border-bottom:9px solid white;
   border-radius:30px;
   padding: 10px 12px 10px 12px;
   opacity:0.6;
-  height:auto;
   width:auto;
-  font-family: 'Roboto';
+  font-family: 'Roboto', helvetica, arial;
   font-weight:500;
 
 }
 
 .joinExGameInput
 {
-  margin-left:15px;
+  margin-bottom: 10px;
 }
 
 .button1:hover, .gameAction:hover
@@ -134,6 +145,9 @@ body {
   color: rgba(0, 0, 0, 0.4);
   font-family: 'Roboto';
   font-weight: 500;
+  width:  100px;
+  margin:0;
+  display: inline-block;
 }
 
 /*rounds counter*/
@@ -143,20 +157,24 @@ body {
   float:left;
   height: inherit;
   width: 125px;
+  display: flex;
+  justify-content: center;
 }
 #secContainer
 {
   float:right;
   height: inherit;
   width:125px;
+  display: flex;
+  justify-content: center;
 }
 
 #roundTimeContainer
 {
   float:right;
   width:260px;
-  height:auto;
-
+  height:90px;
+  display: inline-block;
 }
 
 .countTimeLabel {
@@ -167,22 +185,21 @@ body {
 }
 
 
-.countTime
+.countBox
 {
   color: rgba(0, 0, 0, 0.5);
   background-color: rgba(202, 205, 219, .5);
   border:none; 
   padding: 2px;
+  height: 20px;
   width:50px;
   border-radius: 20px;
   font-size:14px;
   font-family: 'Roboto', serif;
   font-weight:500;
   text-align:center;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-   box-sizing: border-box;
-   float:right;
+  margin-left:5px;
+  margin-right: 10px;
   
 }
 
@@ -197,8 +214,16 @@ body {
   background-color:rgba(0,0,0, .05);
   border:none;
   float:left;
-  margin-right:2px;
+  height:20px;
+  width: 20px;
   border-radius: 10px;
+}
+
+.timeContainer
+{
+  display: flex;
+  align-items: center;
+  height: inherit;
 }
 
 
@@ -224,4 +249,11 @@ body {
   100% {
     background-color: #45a3e5;
   }
+}
+
+.center
+{
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
 }

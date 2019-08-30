@@ -35,6 +35,7 @@ $(function() {
   var $createPriGame = $('.createPriGame');
   var $roundMins = $('#countMin');
   var $roundSecs = $('#countSec');
+  var $chatContainer = $('.chatContainer');
 
   var $joinExGameInput = $('.joinExGameInput');
 
@@ -96,7 +97,7 @@ $(function() {
   function addParticipantsMessage (data) {
     var message = '';
     if (data.numUsers === 1) {
-      message += "I walk a lonely road. The only one that I have ever known. One(1) user online";
+      message += "I walk a lonely road. The only one that I have ever known. Only one(1) user online";
     } else {
       message += "there are " + data.numUsers + " players in the Lobby";
     }
@@ -341,7 +342,7 @@ $(function() {
 
   })
 
-  //ADDED CREATEPRIGAME FUNCTIONALITY 8/21/19
+ 
   $createPriGame.click(function(){
     roundMinutes = $roundMins.val();
     roundSeconds = $roundSecs.val();
@@ -357,7 +358,7 @@ $(function() {
   socket.on('login', function (data) {
     connected = true;
     // Display the welcome message
-    var message = "Welcome to the Game Server ";
+    var message = "Welcome to the Game Lobby ";
     log(message, {
       prepend: true
     });
@@ -502,3 +503,4 @@ socket.on('createdNewPub', function (){
 
 
 });
+
