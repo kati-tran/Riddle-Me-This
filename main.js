@@ -5,7 +5,16 @@ $(function() {
   var COLORS = [
   '#ff6961', '#db6b6b', '#ffcb5e', '#ffa530',
   '#b6ff85', '#6d9e55', '#6bb8db', '#a1ffea',
-  '#9bbde8', '#8c87ab', '#e3adff', '#d9a6de'
+  '#9bbde8', '#8c87ab', '#e3adff', '#d9a6de', 
+  '#b71c1c', '#880e4f', '#4a148c', '#311b92',
+  '#1a237e', '#0d47a1', '#01579b', '#006064',
+  '#004d40', '#1b5e20', '#33691e', '#f57f17',
+  '#ff6f00', '#e65100', '#f44336', '#e91e63',
+  '#9c27b0', '#673ab7', '#3f51b5', '#2196f3',
+  '#03a9f4', '#00bcd4', '#009688', '#4caf50',
+  '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107',
+  '#ff9800', '#ff5722', '#002800', '#94a8be',
+  '#ffb90f', '#2c4353', '#6699FF', '#FF6699'
   ];
 
   // Initialize variables
@@ -135,10 +144,6 @@ $(function() {
       });
       // tell server to execute 'new message' and send along one parameter
       socket.emit('new message', message);
-      if(playerwin){
-        uscore = 50
-        socket.emit('update score',uscore)
-      }
     }
   }
 
@@ -150,7 +155,7 @@ $(function() {
     if (message && connected) {
       var playerwin = playerWinCheck(message);
       if(playerwin){
-        uscore = 50
+        uscore = 50 //will be based on timer once implemented
         socket.emit('update score',uscore)
       }
     }
