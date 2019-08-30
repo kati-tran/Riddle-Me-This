@@ -3,6 +3,48 @@ block head
     link(rel='stylesheet', href='style.css')
     link(rel='stylesheet', href='static/index.css')       
     link(href='https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap', rel='stylesheet')
+    script(src='https://code.jquery.com/jquery-1.10.2.min.js')
+    |     
+    script(src='/socket.io/socket.io.js')
+    |     
+    script(src='/main.js')
+    |   
+    script(type='text/javascript')
+    |
+    script.
+      function plus(inc_by, elem_id, max){
+        let elem; let count;
+
+        elem = document.getElementById(elem_id);
+        count = ~~elem.value;
+        console.log(elem.value, max)
+        
+        
+        if (elem.value < max){
+          count += inc_by;
+          elem.value = count;
+        }
+      }
+
+
+
+      function minus(inc_by, elem_id, min, check_id){
+        let elem; let count;
+
+        elem = document.getElementById(elem_id);
+        count = ~~elem.value;
+
+        
+        if (check_id != null && (document.getElementById(check_id)).value==0)
+        {
+          return;
+        }
+
+        else if (elem.value > min) {
+          count -= inc_by;
+          elem.value = count;
+        }  
+      }
 block content
     .userboard
       #users
@@ -17,7 +59,7 @@ block content
       li.chat.page
         .stripe
           h1
-            a(href='/')  Riddle Me This!
+            a.title(href='/')  Riddle Me This!
         .gameButtons
           button.gameAction.joinGame(placeholder='Join Game') Public Game
           |          
@@ -31,25 +73,32 @@ block content
           |
           button.gameAction.createPriGame(placeholder='Create New Game') Create Private Game
           |
+          p.label2 Round Time
           #roundTimeContainer
-            p.label2 round length
             #minContainer
-              input.incdec.top(type='button', value='+', onclick='plus(1, true)')
+              input.incdec.top(type='button', value='+', onclick='plus(1, "countMin", 5)')
               |  
-              input.incdec.bottom(type='button', value='-', onclick='minus(1, true)')
+              input.incdec.bottom(type='button', value='-', onclick='minus(1, "countMin", 0, "countSec")')
               |
-              p.countTimeLabel.label2  min 
+              p.label2  min 
               |
               input#countMin.countTime(type='text', size='25', value='1', readonly='readonly') 
             #secContainer
-              p.countTimeLabel.label2 sec
-                #input_div
-                  input.incdec.top(type='button', value='+', onclick='plus(30, false)')
-                  |   
-                  input.incdec.bottom(type='button', value='-', onclick='minus(30, false)')
-                  |
-                  input#countSec.countTime(type='text', size='25', value='30', readonly='readonly')    
+              p.label2 sec
+                input.incdec.top(type='button', value='+', onclick='plus(30, "countSec", 30)')
+                |   
+                input.incdec.bottom(type='button', value='-', onclick='minus(30, "countSec", 0, "countMin")')
+                |
+                input#countSec.countTime(type='text', size='25', value='30', readonly='readonly')
           |
+          p.label2 Rounds
+          #numRoundsContainer
+              input.incdec.top(type='button', value='+', onclick='plus(1, "countRound", 10)')
+              |   
+              input.incdec.bottom(type='button', value='-', onclick='minus(1, "countRound", 1, null)')
+              |
+              input#countRound.countTime(type='text', size='25', value='5', readonly='readonly')
+
           br
           |             
           button.gameAction.leaveGame(placeholder='Leave Game') Back to Lobby
@@ -93,86 +142,25 @@ block content
           |             
           .panel
             p Riddle Me This! is a sdjfsdf
+          |
+          script.
+            var acc = document.getElementsByClassName("accordion");
+            var i;
 
-    |     
-    script(src='https://code.jquery.com/jquery-1.10.2.min.js')
-    |     
-    script(src='/socket.io/socket.io.js')
-    |     
-    script(src='/main.js')
-    |   
-    script(type='text/javascript').
+            for (i = 0; i < acc.length; i++) {
+              acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight)
+                {
+                  panel.style.maxHeight = null;
+                } 
 
-    |
-    script.
-      var acc = document.getElementsByClassName("accordion");
-      var i;
+                else {
+                  panel.style.maxHeight = panel.scrollHeight + "px";
+                } 
+              });
+            }
 
-      for (i = 0; i < acc.length; i++) {
-        acc[i].addEventListener("click", function() {
-          this.classList.toggle("active");
-          var panel = this.nextElementSibling;
-          if (panel.style.maxHeight){
-            panel.style.maxHeight = null;
-          } else {
-            panel.style.maxHeight = panel.scrollHeight + "px";
-          } 
-        });
-      }
-    |
-    script.
-      function plus(num, minute){
-        let max; let min;
-        let elem; let count; let string;
-        
-        if (minute){
-         max = 5;
-         min = 1;
-         elem = document.getElementById("countMin");
-         count = ~~elem.value;
-        }
-        
-        else {
-          max = 30;
-          min = 0;
-          elem = document.getElementById("countSec");
-          count = ~~elem.value;
-        }
-        
-        console.log(num, max, num < max);
-        if (elem.value < max){
-          count += num;
-          elem.value = count;
-        }
-      }
-
-
-
-      function minus(num, minute){
-        let max; let min;
-        let elem; let count; let string;
-        
-        if (minute){
-         max = 5;
-         min = 1;
-         elem = document.getElementById("countMin");
-         count = ~~elem.value;
-        }
-        
-        else {
-          max = 30;
-          min = 0;
-          elem = document.getElementById("countSec");
-          count = ~~elem.value;
-        }
-        
-        var countSec = document.getElementById("countSec");
-        var countMin = document.getElementById("countMin");
-        
-        if ((elem.value > min && countMin.value!=0) || (countMin.value > 0 && ~~countSec.value==30) ) {
-          count -= num;
-          elem.value = count;
-        }  
-      }
       
 
