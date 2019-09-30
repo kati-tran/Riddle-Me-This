@@ -64,33 +64,55 @@ block content
     ul.pages
       li.chat.page
         include header
-        .gameButtons
-          button.gameAction.joinGame(placeholder='Join Game') Public Game
-          |          
-          br
+        #lobbyContainer
+          .gameButtons
+            button.gameAction.joinGame(placeholder='Join Game') Public Game
+            |          
+            br
+            |
+            button.gameAction.joinExGame(placeholder='Join Existing Game') Private Game
+            |
+            input.input1.joinExGameInput(type='text', name='joinExGameInput', placeholder=' ☺ ', required='')
+            |          
+            br
+            |
+            button.gameAction.createPriGame(placeholder='Create New Game') Create Private Game
+            |
+            br
+            |             
+            button.gameAction.leaveGame(placeholder='Leave Game') Back to Lobby
+            |          
+            br
           |
-          button.gameAction.joinExGame(placeholder='Join Existing Game') Private Game
-          |
-          input.input1.joinExGameInput(type='text', name='joinExGameInput', placeholder=' ☺ ', required='')
-          |          
-          br
-          |
-          button.gameAction.createPriGame(placeholder='Create New Game') Create Private Game
-          |
-          br
-          |             
-          button.gameAction.leaveGame(placeholder='Leave Game') Back to Lobby
-          |          
-          br
+          #privateGameParametersContainer
+             #customGamePanel
+                #roundTimeContainer
+                  p.label1 Round Time
+                  #minContainer.timeContainer
+                    input.incdec(type='button', value='+', onclick='plus(1, "countMin", 5)')
+                    |  
+                    input.incdec(type='button', value='-', onclick='minus(1, "countMin", 0, "countSec")') 
+                    |
+                    input#countMin.countBox(type='text', size='25', value='1', readonly='readonly')
+                    |
+                    p.label2  min 
+                  #secContainer.timeContainer
+                    input.incdec(type='button', value='+', onclick='plus(30, "countSec", 30)')
+                    |   
+                    input.incdec(type='button', value='-', onclick='minus(30, "countSec", 0, "countMin")')
+                    |
+                    input#countSec.countBox(type='text', size='25', value='30', readonly='readonly')
+                    |
+                    p.label2 sec
+          |         
+          .chatContainer#chatbox
+            ul.messages
+          |       
+          input.inputMessage(placeholder='Type here...')
         |         
-        .chatContainer#chatbox
-          ul.messages
-        |       
-        input.inputMessage(placeholder='Type here...')
-      |         
-      li.usersList
-        .usersList
-          ul.Users
+        li.usersList
+          .usersList
+            ul.Users
       li.login.page
         include header
         #mainpageContainer

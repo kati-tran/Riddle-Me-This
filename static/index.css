@@ -34,8 +34,6 @@
   height:auto;
   display: inline-block;
   margin-right: 20px;
-  margin-top:3%;
-  margin-left: 22%;
 }
 
 #avatar_select
@@ -65,8 +63,6 @@
   background-color: white;
   opacity:0.6;
   border-radius: 25px;
-  margin-top:3%;
-  margin-right: 22%;
   min-width: 150px;
 }
 
@@ -98,7 +94,26 @@
 
 #mainpageContainer
 {
-    display: flex;
-  flex-flow: column-wrap;
+  display: flex;
+  justify-content: center;
   overflow: hidden;
+  margin-top: 50px;
+}
+
+
+#lobbyContainer
+{
+  display: flex;
+  justify-content: center;
+  margin-top: 2%;
+  height: 100%;
+  width:100%;
+}
+
+#privateGameParametersContainer
+{
+  width: 28%;
+  margin-right: 2%;
+  border:black;
+  height: 71%;
 }

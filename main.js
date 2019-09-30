@@ -35,7 +35,7 @@ $(function() {
   var $createPriGame = $('.createPriGame');
   var $roundMins = $('#countMin');
   var $roundSecs = $('#countSec');
-  var $chatContainer = $('.chatContainer');
+  var $chatContainer = $('.chatContainer'); // NOTE TO MY FUTURE SELF - remove jquery; do with javascript
 
   var $joinExGameInput = $('.joinExGameInput');
 
@@ -112,8 +112,9 @@ $(function() {
     if (username) {
       $loginPage.fadeOut();
       $chatPage.show();
-      $userboard.hide();
+      $userboard.hide(); // NOTE FOR MY FUTURE SELF -- CHANGE THE CSS DISPLAY TO HIDDEN
       $gameContainer.hide();
+      $(document.getElementById("privateGameParametersContainer")).hide();
       $loginPage.off('click');
       $currentInput = $inputMessage.focus();
 
@@ -339,6 +340,8 @@ $(function() {
 
   $leaveGame.click(function () {
     leaveGame();
+    $(document.getElementById("privateGameParametersContainer")).hide();
+    //fix this shit later
 
   })
 
@@ -346,6 +349,7 @@ $(function() {
   $createPriGame.click(function(){
     roundMinutes = $roundMins.val();
     roundSeconds = $roundSecs.val();
+     $(document.getElementById("privateGameParametersContainer")).show();
     createPriGame();
 
 
