@@ -2,7 +2,8 @@ extends master.pug
 block head    
     link(rel='stylesheet', href='/style.css')
     link(rel='stylesheet', href='/static/main.css')
-    link(rel='stylesheet', href='/static/index.css')       
+    link(rel='stylesheet', href='/static/index.css')
+    link(rel='stylesheet', href='/static/lobby.css')        
     link(href='https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap', rel='stylesheet')
     |
     link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
@@ -65,7 +66,7 @@ block content
       li.chat.page
         include header
         #lobbyContainer
-          .gameButtons
+          .gameButtonsContainer
             button.gameAction.joinGame(placeholder='Join Game') Public Game
             |          
             br
@@ -123,7 +124,7 @@ block content
             #usernamecontainer                 
                 input.input1.usernameInput(type='text', name='username', placeholder=' ☺', required='')
                 |
-                input#go.button1(type='submit', value='Go!', onkeypress='return event.keyCode != 13')
+                input#go(type='submit', value='Go!', onkeypress='return event.keyCode != 13')
                 |                       
                 p.label1  nickname
           #info_container
