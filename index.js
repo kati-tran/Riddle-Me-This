@@ -60,7 +60,9 @@ function buildGame(socket, prival) {
  //console.log(gameRiddleDict)
  var gameObject = {};
  gameObject.id = (Math.random()+1).toString(36).slice(2, 18);
- gameObject.playerSet = new Set([socket.player]); // adding playerobjects
+ //gameObject.playerSet = new Set([socket.player]); // adding playerobjects
+ gameObject.playerSet = {};
+ gameObject.playerSet[socket.id] = socket.player;
  gameObject.numPlayers = 1;
  gameObject.prival = prival;
  console.log(gameObject.prival);
@@ -108,8 +110,9 @@ function killGame(socket) {
     gameId = game['id'];
     player = socket.player;
 
-    if (game['playerSet'].has(player)) // if the player is in the game
-    {
+    //if (game['playerSet'].has(player)) // if the player is in the game
+    if (game['playerSet'].hasOwnProperty(socket.id)){
+    
 
       if (game['numPlayers']==1) // if the player is the last one in the game
       {
@@ -137,7 +140,8 @@ function killGame(socket) {
       socket.emit('addroom', {room: 'lobby'});
 
       //update game info
-      game['playerSet'].delete(player);
+      //game['playerSet'].delete(player); <===
+      delete game['playerSet'][socket.id];
       --game['numPlayers'];
 
       console.log("Users remaining:");
@@ -179,7 +183,7 @@ function gameSeeker (socket) {
 	      		socket.emit('addroom', {room: game.id}); // add player to specific room. 
 	      		socket.emit('joinSuccess', {gameId: game['id'] }); // joinSuccess triggers game html
 	      		var player = socket.player;
-	      		game['playerSet'].add(player);
+	      		game['playerSet'][socket.id] = socket.player; // game['playerSet'].add(player);
 	      		game['numPlayers']++;
 
 
@@ -362,7 +366,8 @@ io.sockets.on('connection', function (socket) {
 
     for(var i = 0; i < gameCollection.totalGameCount; i++){
       game = gameCollection.gameList[i]['gameObject'];
-      if (game['playerSet'].has(socket.player)){
+      //if (game['playerSet'].has(socket.player)){
+        if (game['playerSet'].hasOwnProperty(socket.id)){
         alreadyInGame = true;
         console.log(socket.player['username'] + " already has a Game!");
 
@@ -401,7 +406,8 @@ io.sockets.on('connection', function (socket) {
 	    for(var i = 0; i < gameCollection.totalGameCount; i++){
 	      game = gameCollection.gameList[i]['gameObject'];
 	      console.log(game.id);
-	      if (game['playerSet'].has(socket.player)){
+	      //if (game['playerSet'].has(socket.player)){
+          if (game['playerSet'].hasOwnProperty(socket.id)){
 	        alreadyInGame = true;
 	        console.log(socket.player['username'] + " already has a Game!");
 
@@ -430,7 +436,8 @@ io.sockets.on('connection', function (socket) {
 			      socket.emit('addroom', {room: gameId}); // add player to randomly picked room
 
 			      socket.emit('joinSuccess', {gameId: game['id'] }); // joinSuccess triggers game html
-			      game['playerSet'].add(player);
+			      //game['playerSet'].add(player);
+            game['playerSet'][socket.id] = player;
 			      game['numPlayers']++;
 
 			      console.log("User {" + socket.id + ", " + player['username'] + "} has been added to: " + gameId);
@@ -463,7 +470,8 @@ io.sockets.on('connection', function (socket) {
   	var alreadyInGame = false;
   	for(var i = 0; i < gameCollection.totalGameCount; i++){
       game = gameCollection.gameList[i]['gameObject'];
-      if (game['playerSet'].has(socket.player)){
+      //if (game['playerSet'].has(socket.player)){
+        if (game['playerSet'].hasOwnProperty(socket.id)){
         alreadyInGame = true;
         console.log(socket.player['username'] + " already has a Game!");
 
