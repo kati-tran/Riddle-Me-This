@@ -1,168 +1,131 @@
-extends master.pug
-block head    
-    link(rel='stylesheet', href='/style.css')
-    link(rel='stylesheet', href='/static/main.css')
-    link(rel='stylesheet', href='/static/index.css')
-    link(rel='stylesheet', href='/static/lobby.css')        
-    link(href='https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap', rel='stylesheet')
-    |
-    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
-    |         
-    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css')
-    |
-    script(src='https://code.jquery.com/jquery-1.10.2.min.js')  
-    | 
-    script(src='/socket.io/socket.io.js')
-    |     
-    script(src='/main.js')
-    |   
-    script(type='text/javascript')
-    |
+doctype html
+head
+  meta(http-equiv='Content-Type' content='text/html; charset=utf-8')
+  title Riddle Me This!
+  link(href='https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap' rel='stylesheet')
+  link(rel='stylesheet' href='static/main.css')
+  link(rel='stylesheet' href='/style.css')
+  link(rel='stylesheet' href='/static/main.css')
+  link(rel='stylesheet' href='/static/index.css')
+  link(rel='stylesheet' href='/static/lobby.css')
+  link(href='https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap' rel='stylesheet')
+  link(rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
+  link(rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css')
+  script(src='https://code.jquery.com/jquery-1.10.2.min.js')
+  script(src='/socket.io/socket.io.js')
+  script(src='/main.js')
+  script(type='text/javascript').
+  script.
+    function plus(inc_by, elem_id, max) {
+    let elem;
+    let count;
+    elem = document.getElementById(elem_id);
+    count = ~~elem.value;
+    console.log(elem.value, max)
+    if (elem.value < max) {
+    count += inc_by;
+    elem.value = count;
+    }
+    }
+    function minus(inc_by, elem_id, min, check_id) {
+    let elem;
+    let count;
+    elem = document.getElementById(elem_id);
+    count = ~~elem.value;
+    if (check_id != null && (document.getElementById(check_id)).value == 0 && count - inc_by == 0) {
+    return;
+    } else if (elem.value > min) {
+    count -= inc_by;
+    elem.value = count;
+    }
+    }
+.userboard
+  #users
+    p#user
+.gameContainer
+  // p #{riddles}
+  p#demo
+  p#answer
+  div
+    | Round time Remaining: 
+    span#time 05:00
+ul.pages
+  li.chat.page
+    .stripe
+      h1
+        a.title(href='/')  Riddle Me This!
+    #lobbyContainer
+      .gameButtonsContainer
+        button.gameAction.joinGame(placeholder='Join Game') Public Game
+        br
+        button.gameAction.joinExGame(placeholder='Join Existing Game') Private Game
+        input.input1.joinExGameInput(type='text' name='joinExGameInput' placeholder=' ☺ ' required='')
+        br
+        button.gameAction.createPriGame(placeholder='Create New Game') Create Private Game
+        br
+        button.gameAction.leaveGame(placeholder='Leave Game') Back to Lobby
+        br
+      #privateGameParametersContainer
+        #customGamePanel
+          #roundTimeContainer
+            p.label1 Round Time
+            #minContainer.timeContainer
+              input.incdec(type='button' value='+' onclick='plus(1, "countMin", 5)')
+              input.incdec(type='button' value='-' onclick='minus(1, "countMin", 0, "countSec")')
+              input#countMin.countBox(type='text' size='25' value='1' readonly='readonly')
+              p.label2  min 
+            #secContainer.timeContainer
+              input.incdec(type='button' value='+' onclick='plus(30, "countSec", 30)')
+              input.incdec(type='button' value='-' onclick='minus(30, "countSec", 0, "countMin")')
+              input#countSec.countBox(type='text' size='25' value='30' readonly='readonly')
+              p.label2 sec
+      #chatbox.chatContainer
+        ul.messages
+      input.inputMessage(placeholder='Type here...')
+  li.usersList
+    .usersList
+      ul.Users
+  li.login.page
+    .stripe
+      h1
+        a.title(href='/')  Riddle Me This!
+    #mainpageContainer
+      #user_inputs
+        #avatar_select
+        p.label1  choose your fighter
+        #usernamecontainer
+          input.input1.usernameInput(type='text' name='username' placeholder=' ☺' required='')
+          input#go(type='submit' value='Go!' onkeypress='return event.keyCode != 13')
+          p.label1  nickname
+      #info_container
+        button.accordion(id='collapse in' data-parent='#accordion') How to Play
+        .panel(style='max-height:70px;')
+          p.small-text And I oop-
+        button.accordion(data-parent='#accordion') Updates
+        .panel
+          p.small-text ????????????/
+        button.accordion(data-parent='#accordion') About
+        .panel
+          p.small-text Riddle Me This! is ??????
+    div
+      #footer
+        p
+          a(href='/contact') Contact Us
+          |  |
+          a(href='/terms_conditions') Terms and Conditions
+          |  |
+          a(href='/source_code') Source Code
     script.
-      function plus(inc_by, elem_id, max){
-        let elem; let count;
-
-        elem = document.getElementById(elem_id);
-        count = ~~elem.value;
-        console.log(elem.value, max)
-        
-        
-        if (elem.value < max){
-          count += inc_by;
-          elem.value = count;
-        }
+      var acc = document.getElementsByClassName("accordion");
+      var i;
+      for (i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var panel = this.nextElementSibling;
+      if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+      } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
       }
-
-
-
-      function minus(inc_by, elem_id, min, check_id){
-        let elem; let count;
-
-        elem = document.getElementById(elem_id);
-        count = ~~elem.value;
-
-        
-        if (check_id != null && (document.getElementById(check_id)).value==0 && count-inc_by == 0)
-        {
-          return;
-        }
-
-        else if (elem.value > min) {
-          count -= inc_by;
-          elem.value = count;
-        }  
+      });
       }
-block content
-    .userboard
-      #users
-        p#user
-    |     
-    .gameContainer
-      //p #{riddles}
-      p#demo
-      p#answer
-    |     
-    ul.pages
-      li.chat.page
-        include header
-        #lobbyContainer
-          .gameButtonsContainer
-            button.gameAction.joinGame(placeholder='Join Game') Public Game
-            |          
-            br
-            |
-            button.gameAction.joinExGame(placeholder='Join Existing Game') Private Game
-            |
-            input.input1.joinExGameInput(type='text', name='joinExGameInput', placeholder=' ☺ ', required='')
-            |          
-            br
-            |
-            button.gameAction.createPriGame(placeholder='Create New Game') Create Private Game
-            |
-            br
-            |             
-            button.gameAction.leaveGame(placeholder='Leave Game') Back to Lobby
-            |          
-            br
-          |
-          #privateGameParametersContainer
-             #customGamePanel
-                #roundTimeContainer
-                  p.label1 Round Time
-                  #minContainer.timeContainer
-                    input.incdec(type='button', value='+', onclick='plus(1, "countMin", 5)')
-                    |  
-                    input.incdec(type='button', value='-', onclick='minus(1, "countMin", 0, "countSec")') 
-                    |
-                    input#countMin.countBox(type='text', size='25', value='1', readonly='readonly')
-                    |
-                    p.label2  min 
-                  #secContainer.timeContainer
-                    input.incdec(type='button', value='+', onclick='plus(30, "countSec", 30)')
-                    |   
-                    input.incdec(type='button', value='-', onclick='minus(30, "countSec", 0, "countMin")')
-                    |
-                    input#countSec.countBox(type='text', size='25', value='30', readonly='readonly')
-                    |
-                    p.label2 sec
-          |         
-          .chatContainer#chatbox
-            ul.messages
-          |       
-          input.inputMessage(placeholder='Type here...')
-        |         
-        li.usersList
-          .usersList
-            ul.Users
-      li.login.page
-        include header
-        #mainpageContainer
-          #user_inputs
-            #avatar_select
-            |                 
-            p.label1  choose your fighter
-            #usernamecontainer                 
-                input.input1.usernameInput(type='text', name='username', placeholder=' ☺', required='')
-                |
-                input#go(type='submit', value='Go!', onkeypress='return event.keyCode != 13')
-                |                       
-                p.label1  nickname
-          #info_container
-            button.accordion(id='collapse in', data-parent='#accordion') How to Play
-            |             
-            .panel(style='max-height:70px;')
-              p.small-text And I oop-
-            |             
-            button.accordion(data-parent='#accordion') Updates
-            |
-            .panel
-              p.small-text ????????????/
-            |             
-            button.accordion(data-parent='#accordion') About
-            |             
-            .panel
-              p.small-text Riddle Me This! is ??????
-        |
-        include footer
-        |
-        script.
-          var acc = document.getElementsByClassName("accordion");
-          var i;
-
-          for (i = 0; i < acc.length; i++) {
-            acc[i].addEventListener("click", function() {
-              this.classList.toggle("active");
-              var panel = this.nextElementSibling;
-              if (panel.style.maxHeight)
-              {
-                panel.style.maxHeight = null;
-              } 
-
-              else {
-                panel.style.maxHeight = panel.scrollHeight + "px";
-              } 
-            });
-          }
-
-      
-
